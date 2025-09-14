@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-i18n="site.title">Bewerbungsunterlagen — Dein Name</title>
+  <title>Bewerbungsunterlagen — Dein Name</title>
   <meta name="description" content="Bewerbung, Lebenslauf, Projekte, Zeugnisse." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,11 +12,11 @@
 <body>
 <header class="topbar" role="banner">
   <nav class="nav">
-    <a href="#about" data-i18n="nav.about">Über mich</a>
-    <a href="#cv" data-i18n="nav.cv">Lebenslauf</a>
-    <a href="#docs" data-i18n="nav.docs">Unterlagen</a>
-    <a href="#projects" data-i18n="nav.projects">Projekte</a>
-    <a href="#contact" data-i18n="nav.contact">Kontakt</a>
+    <a href="#about">Über mich</a>
+    <a href="#cv">Lebenslauf</a>
+    <a href="#docs">Unterlagen</a>
+    <a href="#projects">Projekte</a>
+    <a href="#contact">Kontakt</a>
   </nav>
   <div class="lang-switch" aria-label="Language switch">
     <button class="lang-btn" data-lang="de" aria-pressed="true" type="button">DE</button>
@@ -24,7 +24,6 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero" aria-label="Hero">
   <div class="hero-media" aria-hidden="true">
     <div class="grid">
@@ -39,74 +38,63 @@
       <img src="assets/9.jpg" alt="">
     </div>
   </div>
-  <h1 class="brand" data-i18n="hero.title" tabindex="0">
+  <h1 class="brand" tabindex="0">
     <span>B</span><span>e</span><span>w</span><span>e</span><span>r</span><span>b</span><span>u</span><span>n</span><span>g</span>
   </h1>
-  <p class="subtitle" data-i18n="hero.subtitle">
-    Softwareentwickler · Java · Python · Web
-  </p>
-  <a href="#docs" class="cta" data-i18n="hero.cta">Unterlagen ansehen</a>
+  <p class="subtitle">Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung</p>
+  <a href="#docs" class="cta">Unterlagen ansehen</a>
 </section>
 
 <main>
-  <!-- Über mich -->
   <section id="about" class="section">
-    <h2 data-i18n="about.title">Über mich</h2>
-    <p data-i18n="about.text">
-      Ich bin ein Softwareentwickler mit Fokus auf Java, Python, Web-Technologien (HTML, CSS, PHP).
-      Ich kombiniere saubere Architektur, Automatisierung und Liebe zum Design.
+    <h2>Über mich</h2>
+    <p>
+      Ich absolviere aktuell eine Umschulung zum Fachinformatiker für Anwendungsentwicklung und suche ab April 2026 ein Pflichtpraktikum.
+      Während meiner Ausbildung habe ich Kenntnisse in Java, Python, Webentwicklung (HTML, CSS, JavaScript) und Datenbanken erworben.
+      Mein Ziel ist es, praktische Erfahrung in einem professionellen Umfeld zu sammeln und meine Fähigkeiten weiterzuentwickeln.
     </p>
   </section>
 
-  <!-- Lebenslauf -->
   <section id="cv" class="section">
-    <h2 data-i18n="cv.title">Lebenslauf</h2>
+    <h2>Lebenslauf</h2>
     <div class="timeline">
       <article>
-        <h3 data-i18n="cv.now_role">Umschulung · GFN GmbH — Fachrichtung IT</h3>
-        <p data-i18n="cv.now_text">
-          Schwerpunkte: Java, Python, HTML, CSS, PHP. Praxisphase: 22.04.2026–18.01.2027.
-        </p>
+        <h3>Umschulung · GFN GmbH — Fachrichtung IT</h3>
+        <p>Schwerpunkte: Java, Python, HTML, CSS, JavaScript. Praxisphase: 22.04.2026–18.01.2027.</p>
       </article>
       <article>
-        <h3 data-i18n="cv.prev_role">Relevante Erfahrung</h3>
-        <p data-i18n="cv.prev_text">
-          Projekte in Webentwicklung, API-Design, Automatisierung und UI/UX.
-        </p>
+        <h3>Bisherige Erfahrungen</h3>
+        <p>Eigene Projekte im Bereich Webentwicklung, API-Design, Automatisierung und Benutzeroberflächen.</p>
       </article>
     </div>
-    <a class="btn ghost" href="#docs" data-i18n="cv.more">Kompletter Lebenslauf unten</a>
+    <a class="btn ghost" href="#docs">Kompletter Lebenslauf unten</a>
   </section>
 
-  <!-- Unterlagen -->
   <section id="docs" class="section">
-    <h2 data-i18n="docs.title">Unterlagen</h2>
+    <h2>Unterlagen</h2>
     <div class="cards">
 
-      <!-- Anschreiben -->
       <article class="card">
-        <h3 data-i18n="docs.cover">Anschreiben (DE)</h3>
-        <p data-i18n="docs.cover_text">Individuelles Motivationsschreiben, anpassbar je Stelle.</p>
+        <h3>Anschreiben (DE)</h3>
+        <p>Anschreiben für Bewerbungen auf ein Pflichtpraktikum im IT-Bereich.</p>
         <div class="card-actions">
-          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf" data-i18n="docs.download">Herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf" data-i18n="docs.view">Im Browser ansehen</button>
+          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf">Herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf">Im Browser ansehen</button>
         </div>
       </article>
 
-      <!-- Cover Letter -->
       <article class="card">
-        <h3 data-i18n="docs.cover_en">Cover Letter (EN)</h3>
-        <p data-i18n="docs.cover_en_text">Tailored motivation letter for each application.</p>
+        <h3>Cover Letter (EN)</h3>
+        <p>Cover letter for applications for an internship in software development.</p>
         <div class="card-actions">
-          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf" data-i18n="docs.download">Herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf" data-i18n="docs.view">Im Browser ansehen</button>
+          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf">Download</button>
+          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf">View in Browser</button>
         </div>
       </article>
 
-      <!-- CV -->
       <article class="card">
-        <h3 data-i18n="docs.cv">Lebenslauf / CV</h3>
-        <p data-i18n="docs.cv_text">Kompakter, ATS-freundlicher Lebenslauf in beiden Sprachen.</p>
+        <h3>Lebenslauf / CV</h3>
+        <p>Aktueller Lebenslauf in Deutsch und Englisch.</p>
         <div class="card-actions">
           <button class="btn" type="button" data-download="docs/Lebenslauf_DE.pdf" data-filename="Lebenslauf_DE.pdf">DE herunterladen</button>
           <button class="btn ghost" type="button" data-view="docs/Lebenslauf_DE.pdf">DE ansehen</button>
@@ -115,20 +103,18 @@
         </div>
       </article>
 
-      <!-- Zeugnisse -->
       <article class="card">
-        <h3 data-i18n="docs.cert">Zeugnisse & Zertifikate</h3>
-        <p data-i18n="docs.cert_text">Relevante Nachweise über Abschlüsse, Kurse und Fortbildungen.</p>
+        <h3>Zeugnisse & Zertifikate</h3>
+        <p>Nachweise über bisherige Abschlüsse, Weiterbildungen und relevante Zertifikate.</p>
         <div class="card-actions">
-          <button class="btn" type="button" data-download="docs/Zeugnisse.pdf" data-filename="Zeugnisse.pdf" data-i18n="docs.download">Herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/Zeugnisse.pdf" data-i18n="docs.view">Im Browser ansehen</button>
+          <button class="btn" type="button" data-download="docs/Zeugnisse.pdf" data-filename="Zeugnisse.pdf">Herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Zeugnisse.pdf">Im Browser ansehen</button>
         </div>
       </article>
 
-      <!-- ZIP -->
       <article class="card">
         <h3>Alle Unterlagen (ZIP)</h3>
-        <p>Alles auf einmal: Anschreiben, Lebenslauf, Zeugnisse.</p>
+        <p>Kompakte Sammlung aller Bewerbungsunterlagen in einer Datei.</p>
         <div class="card-actions">
           <button class="btn" type="button" data-download="docs/Alle_Unterlagen.zip" data-filename="Alle_Unterlagen.zip">Herunterladen</button>
         </div>
@@ -139,16 +125,14 @@
 </main>
 
 <footer id="contact" class="footer">
-  <h2 data-i18n="contact.title">Kontakt</h2>
-  <p><span data-i18n="contact.mail">E-Mail:</span> <a href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a></p>
-  <p><span data-i18n="contact.location">Standort:</span> Mastershausen, DE</p>
-  <p class="tiny">© <span id="year"></span> · <span data-i18n="footer.rights">Alle Rechte vorbehalten.</span></p>
+  <h2>Kontakt</h2>
+  <p><span>E-Mail:</span> <a href="mailto:mr.vitaleve@gmail.com">mr.vitaleve@gmail.com</a></p>
+  <p><span>Standort:</span> Mastershausen, DE</p>
+  <p class="tiny">© <span id="year"></span> · Alle Rechte vorbehalten.</p>
 </footer>
 
-<!-- Modal -->
 <div id="pdfModal" class="modal" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-label="Dokument-Vorschau">
-    <!-- обычная кнопка «×» слева -->
     <button class="close" type="button" onclick="closePDF()" aria-label="Schließen" title="Schließen">&times;</button>
     <iframe id="pdfFrame" src="" title="Dokument"></iframe>
   </div>
