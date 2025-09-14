@@ -1,54 +1,41 @@
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('is-visible')
-      io.unobserve(e.target)
-    }
-  })
-},{threshold:0.15})
+const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:0.15})
+document.querySelectorAll('.section, .card, .proj').forEach(el=>{el.classList.add('reveal');io.observe(el)})
 
-document.querySelectorAll('.section, .card, .proj').forEach(el=>{
-  el.classList.add('reveal')
-  io.observe(el)
-})
+const menuToggle=document.querySelector('.menu-toggle')
+const nav=document.querySelector('.nav')
+if(menuToggle&&nav){
+  menuToggle.addEventListener('click',()=>{nav.classList.toggle('active')})
+  nav.addEventListener('click',(e)=>{if(e.target.tagName==='A') nav.classList.remove('active')})
+  document.addEventListener('click',(e)=>{if(!e.target.closest('.nav')&&!e.target.closest('.menu-toggle')) nav.classList.remove('active')})
+  window.addEventListener('resize',()=>{if(window.innerWidth>768) nav.classList.remove('active')})
+}
 
 document.addEventListener('click', async (e)=>{
-  const btn = e.target.closest('button')
+  const btn=e.target.closest('button')
   if(!btn) return
-  const dl = btn.getAttribute('data-download')
-  if(dl){
-    e.preventDefault()
-    e.stopPropagation()
-    const name = btn.getAttribute('data-filename') || dl.split('/').pop() || 'download'
-    await forceDownload(dl,name)
-    return
-  }
-  const view = btn.getAttribute('data-view')
-  if(view){
-    e.preventDefault()
-    e.stopPropagation()
-    openPDF(view)
-    return
-  }
+  const dl=btn.getAttribute('data-download')
+  if(dl){e.preventDefault();e.stopPropagation();const name=btn.getAttribute('data-filename')||dl.split('/').pop()||'download';await forceDownload(dl,name);return}
+  const view=btn.getAttribute('data-view')
+  if(view){e.preventDefault();e.stopPropagation();openPDF(view);return}
 })
 
-async function forceDownload(url, filename){
+async function forceDownload(url,filename){
   try{
-    const res = await fetch(url,{cache:'no-cache',credentials:'same-origin'})
+    const res=await fetch(url,{cache:'no-cache',credentials:'same-origin'})
     if(!res.ok) throw new Error('HTTP '+res.status)
-    const buffer = await res.arrayBuffer()
-    const blob = new Blob([buffer],{type:'application/octet-stream'})
+    const buffer=await res.arrayBuffer()
+    const blob=new Blob([buffer],{type:'application/octet-stream'})
     triggerDownloadFromBlob(blob,filename)
   }catch(err){
     try{
-      const xhr = new XMLHttpRequest()
+      const xhr=new XMLHttpRequest()
       xhr.open('GET',url,true)
       xhr.responseType='blob'
       xhr.onload=function(){
         if(xhr.status===200){
-          const blob = new Blob([xhr.response],{type:'application/octet-stream'})
+          const blob=new Blob([xhr.response],{type:'application/octet-stream'})
           triggerDownloadFromBlob(blob,filename)
         }else{
           fallbackLink(url,filename)
@@ -56,29 +43,27 @@ async function forceDownload(url, filename){
       }
       xhr.onerror=function(){fallbackLink(url,filename)}
       xhr.send()
-    }catch(_){
-      fallbackLink(url,filename)
-    }
+    }catch(_){fallbackLink(url,filename)}
   }
 }
 
-function triggerDownloadFromBlob(blob, filename){
-  const href = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = href
-  a.download = filename
+function triggerDownloadFromBlob(blob,filename){
+  const href=URL.createObjectURL(blob)
+  const a=document.createElement('a')
+  a.href=href
+  a.download=filename
   a.style.position='fixed'
   a.style.left='-9999px'
   document.body.appendChild(a)
   a.click()
   a.remove()
-  URL.revokeObjectURL(href)
+  setTimeout(()=>URL.revokeObjectURL(href),4000)
 }
 
-function fallbackLink(url, filename){
-  const a = document.createElement('a')
-  a.href = url
-  a.setAttribute('download', filename)
+function fallbackLink(url,filename){
+  const a=document.createElement('a')
+  a.href=url
+  a.setAttribute('download',filename)
   a.style.position='fixed'
   a.style.left='-9999px'
   document.body.appendChild(a)
@@ -88,32 +73,27 @@ function fallbackLink(url, filename){
 
 function fitPdfUrl(url){
   if(!/\.pdf(?:$|\?)/i.test(url)) return url
-  const join = url.includes('#') ? '&' : '#'
-  return url + join + 'zoom=page-fit&view=Fit&toolbar=0&navpanes=0&scrollbar=0'
+  const join=url.includes('#')?'&':'#'
+  return url+join+'zoom=page-fit&view=Fit&toolbar=0&navpanes=0&scrollbar=0'
 }
 
 function openPDF(url){
-  const modal = document.getElementById('pdfModal')
-  const frame = document.getElementById('pdfFrame')
-  frame.src = fitPdfUrl(url)
-  modal.style.display = 'flex'
+  const modal=document.getElementById('pdfModal')
+  const frame=document.getElementById('pdfFrame')
+  frame.src=fitPdfUrl(url)
+  modal.style.display='flex'
   modal.setAttribute('aria-hidden','false')
   document.body.classList.add('modal-open')
 }
 
 function closePDF(){
-  const modal = document.getElementById('pdfModal')
-  const frame = document.getElementById('pdfFrame')
-  frame.src = ''
-  modal.style.display = 'none'
+  const modal=document.getElementById('pdfModal')
+  const frame=document.getElementById('pdfFrame')
+  frame.src=''
+  modal.style.display='none'
   modal.setAttribute('aria-hidden','true')
   document.body.classList.remove('modal-open')
 }
 
-document.addEventListener('keydown',(e)=>{
-  if(e.key==='Escape') closePDF()
-})
-
-document.getElementById('pdfModal')?.addEventListener('click',(e)=>{
-  if(e.target.id==='pdfModal'){ closePDF() }
-})
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape') closePDF()})
+document.getElementById('pdfModal')?.addEventListener('click',(e)=>{if(e.target.id==='pdfModal') closePDF()})
