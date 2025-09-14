@@ -15,7 +15,23 @@ body.modal-open{overflow:hidden}
 @media (max-width:768px){
   .menu-toggle{display:block;margin-left:16px;margin-right:auto}
   .topbar{position:sticky;top:0;z-index:60}
-  .nav{display:none;position:absolute;top:calc(100% + 8px);left:12px;flex-direction:column;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid color-mix(in oklab,var(--fg) 15%,transparent);background:color-mix(in oklab,var(--bg) 65%, transparent);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);width:max-content;max-width:80vw;box-shadow:0 14px 36px rgba(0,0,0,.35)}
+  .nav{
+    display:none;
+    position:absolute;
+    top:calc(100% + 8px);
+    left:12px;
+    flex-direction:column;
+    gap:12px;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px solid color-mix(in oklab,var(--fg) 15%,transparent);
+    background: color-mix(in oklab,var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    width:max-content;
+    max-width:80vw;
+    box-shadow:0 14px 36px rgba(0,0,0,.45);
+  }
   .nav a{white-space:nowrap}
   .nav.active{display:flex}
   .lang-switch{display:flex;margin-left:auto;margin-right:16px}
