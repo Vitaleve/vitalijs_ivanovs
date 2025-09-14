@@ -1,6 +1,6 @@
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:0.15})
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:0.15})
 document.querySelectorAll('.section, .card, .proj').forEach(el=>{el.classList.add('reveal');io.observe(el)})
 
 const menuToggle=document.querySelector('.menu-toggle')
