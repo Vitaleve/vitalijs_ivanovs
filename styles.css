@@ -13,10 +13,12 @@ body.modal-open{overflow:hidden}
 .lang-btn[aria-pressed=true]{background:var(--accent);color:#fff;border-color:transparent}
 .menu-toggle{display:none;font-size:28px;background:none;border:none;color:var(--fg);cursor:pointer}
 @media (max-width:768px){
-  .menu-toggle{display:block}
-  .nav{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;gap:12px;background:var(--bg);padding:16px 20px;border-top:1px solid color-mix(in oklab,var(--fg) 20%,transparent)}
+  .menu-toggle{display:block;margin-left:16px;margin-right:auto}
+  .topbar{position:sticky;top:0;z-index:60}
+  .nav{display:none;position:absolute;top:calc(100% + 8px);left:12px;flex-direction:column;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid color-mix(in oklab,var(--fg) 15%,transparent);background:color-mix(in oklab,var(--bg) 65%, transparent);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);width:max-content;max-width:80vw;box-shadow:0 14px 36px rgba(0,0,0,.35)}
+  .nav a{white-space:nowrap}
   .nav.active{display:flex}
-  .lang-switch{display:flex}
+  .lang-switch{display:flex;margin-left:auto;margin-right:16px}
 }
 .hero{position:relative;min-height:72vh;display:grid;place-items:center;padding:80px 24px 60px;overflow:hidden;isolation:isolate}
 .hero-media{position:absolute;inset:0;z-index:-1;display:grid;place-items:center;pointer-events:none}
@@ -55,15 +57,3 @@ body.modal-open{overflow:hidden}
 .modal-content iframe{flex:1;width:100%;height:100%;border:0;background:#f5f7fb}
 .close{position:absolute;top:10px;left:12px;padding:4px 10px;font-size:28px;line-height:1;font-weight:800;color:#333;background:transparent;border:none;border-radius:8px;cursor:pointer;z-index:10}
 .close:hover{background:rgba(0,0,0,.06)}
-@media (max-width: 768px){
-  .topbar{ justify-content: space-between; }
-  .menu-toggle{
-    display:block;
-    margin-left: 16px;   /* прижимаем к левому краю */
-    margin-right: auto;  /* выталкиваем всё остальное вправо */
-  }
-  .lang-switch{
-    margin-left: 0;      /* чтобы не уезжало */
-    margin-right: 16px;  /* держим справа с отступом */
-  }
-}
