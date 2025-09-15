@@ -53,11 +53,7 @@
 <main>
   <section id="about" class="section">
     <h2>Über mich</h2>
-    <p>
-      Ich absolviere aktuell eine Umschulung zum Fachinformatiker für Anwendungsentwicklung und suche ab April 2026 ein Pflichtpraktikum.
-      Während meiner Ausbildung habe ich Kenntnisse in Java, Python, Webentwicklung (HTML, CSS, JavaScript) und Datenbanken erworben.
-      Mein Ziel ist es, praktische Erfahrung in einem professionellen Umfeld zu sammeln und meine Fähigkeiten weiterzuentwickeln.
-    </p>
+    <p>Ich absolviere aktuell eine Umschulung zum Fachinformatiker für Anwendungsentwicklung und suche ab April 2026 ein Pflichtpraktikum. Während meiner Ausbildung habe ich Kenntnisse in Java, Python, Webentwicklung (HTML, CSS, JavaScript) und Datenbanken erworben. Mein Ziel ist es, praktische Erfahrung in einem professionellen Umfeld zu sammeln und meine Fähigkeiten weiterzuentwickeln.</p>
   </section>
 
   <section id="cv" class="section">
@@ -78,7 +74,6 @@
   <section id="docs" class="section">
     <h2>Unterlagen</h2>
     <div class="cards">
-
       <article class="card">
         <h3>Anschreiben (DE)</h3>
         <p>Anschreiben für Bewerbungen auf ein Pflichtpraktikum im IT-Bereich.</p>
@@ -118,13 +113,35 @@
       </article>
 
       <article class="card">
+        <h3>Zeugnis (GFN GmbH)</h3>
+        <p>Zeugnis meiner Umschulung zum Fachinformatiker für Anwendungsentwicklung.</p>
+        <div class="card-actions">
+          <button class="btn" type="button" data-download="docs/Zeugnis_GFN.pdf" data-filename="Zeugnis_GFN.pdf">Herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Zeugnis_GFN.pdf">Im Browser ansehen</button>
+        </div>
+      </article>
+
+      <article class="card">
         <h3>Alle Unterlagen (ZIP)</h3>
         <p>Kompakte Sammlung aller Bewerbungsunterlagen in einer Datei.</p>
         <div class="card-actions">
           <button class="btn" type="button" data-download="docs/Alle_Unterlagen.zip" data-filename="Alle_Unterlagen.zip">Herunterladen</button>
         </div>
       </article>
+    </div>
+  </section>
 
+  <section id="projects" class="section">
+    <h2>Projekte</h2>
+    <div class="projects">
+      <article class="proj">
+        <h3>Interactive Hero UI</h3>
+        <p>Hover-Effekt mit Bildkollage und animierter Typografie.</p>
+      </article>
+      <article class="proj">
+        <h3>API-Tooling</h3>
+        <p>Kleine Services für Automatisierung und Datenverarbeitung.</p>
+      </article>
     </div>
   </section>
 </main>
@@ -138,7 +155,7 @@
 
 <div id="pdfModal" class="modal" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-label="Dokument-Vorschau">
-    <button class="close" type="button" onclick="closePDF()" aria-label="Schließen" title="Schließen">&times;</button>
+    <button class="close" type="button" aria-label="Schließen" title="Schließen">&times;</button>
     <iframe id="pdfFrame" src="" title="Dokument"></iframe>
   </div>
 </div>
