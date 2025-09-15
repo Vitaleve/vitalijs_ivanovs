@@ -3,8 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Bewerbungsunterlagen — Dein Name</title>
   <meta name="description" content="Bewerbung, Lebenslauf, Projekte, Zeugnisse." />
+
+  <!-- Open Graph / SEO -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bewerbungsunterlagen — Dein Name">
+  <meta property="og:description" content="Pflichtpraktikum (Anwendungsentwicklung). Lebenslauf, Anschreiben, Zeugnisse, Projekte.">
+  <meta property="og:image" content="assets/og.jpg">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bewerbungsunterlagen — Dein Name">
+  <meta name="twitter:description" content="Pflichtpraktikum (Anwendungsentwicklung). Lebenslauf, Anschreiben, Zeugnisse, Projekte.">
+  <meta name="twitter:image" content="assets/og.jpg">
+  <meta name="theme-color" content="#0b0d12">
+
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -25,8 +39,8 @@
   </nav>
   <div class="header-controls">
     <div class="lang-switch" aria-label="Language">
-      <button class="lang-btn" data-lang="de" aria-pressed="true" type="button">DE</button>
-      <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">EN</button>
+      <button class="lang-btn" data-lang="de" aria-pressed="true" type="button">🇩🇪</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">🇬🇧</button>
     </div>
     <div class="theme-switch" aria-label="Theme" data-active="auto">
       <button type="button" class="theme-seg" data-theme="auto" aria-pressed="true">A</button>
@@ -40,15 +54,15 @@
 <section class="hero" aria-label="Hero">
   <div class="hero-media" aria-hidden="true">
     <div class="grid">
-      <img src="assets/1.jpg" alt="">
-      <img src="assets/2.jpg" alt="">
-      <img src="assets/3.jpg" alt="">
-      <img src="assets/4.jpg" alt="">
-      <img src="assets/5.jpg" alt="">
-      <img src="assets/6.jpg" alt="">
-      <img src="assets/7.jpg" alt="">
-      <img src="assets/8.jpg" alt="">
-      <img src="assets/9.jpg" alt="">
+      <img src="assets/1.jpg" alt="" loading="lazy">
+      <img src="assets/2.jpg" alt="" loading="lazy">
+      <img src="assets/3.jpg" alt="" loading="lazy">
+      <img src="assets/4.jpg" alt="" loading="lazy">
+      <img src="assets/5.jpg" alt="" loading="lazy">
+      <img src="assets/6.jpg" alt="" loading="lazy">
+      <img src="assets/7.jpg" alt="" loading="lazy">
+      <img src="assets/8.jpg" alt="" loading="lazy">
+      <img src="assets/9.jpg" alt="" loading="lazy">
     </div>
   </div>
   <h1 class="brand" tabindex="0">
@@ -83,25 +97,39 @@
     <h2>Unterlagen</h2>
     <div class="cards">
 
-      <article class="card">
-        <h3>Anschreiben · Cover Letter</h3>
-        <p>Anschreiben für ein Pflichtpraktikum im IT-Bereich · Cover letter for an internship in software development.</p>
+      <article class="card de-only">
+        <h3>Anschreiben (DE)</h3>
+        <p>Anschreiben für ein Pflichtpraktikum im IT-Bereich.</p>
         <div class="card-actions doc-actions">
-          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf">DE herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf">DE ansehen</button>
-          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf">EN download</button>
-          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf">EN view</button>
+          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf">Herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf">Ansehen</button>
         </div>
       </article>
 
-      <article class="card">
-        <h3>Lebenslauf · CV</h3>
-        <p>Aktueller Lebenslauf in Deutsch und Englisch · Current CV in German and English.</p>
+      <article class="card en-only" hidden>
+        <h3>Cover Letter (EN)</h3>
+        <p>Cover letter for an internship in software development.</p>
         <div class="card-actions doc-actions">
-          <button class="btn" type="button" data-download="docs/Lebenslauf_DE.pdf" data-filename="Lebenslauf_DE.pdf">DE herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/Lebenslauf_DE.pdf">DE ansehen</button>
-          <button class="btn" type="button" data-download="docs/CV_EN.pdf" data-filename="CV_EN.pdf">EN download</button>
-          <button class="btn ghost" type="button" data-view="docs/CV_EN.pdf">EN view</button>
+          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf">Download</button>
+          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf">View</button>
+        </div>
+      </article>
+
+      <article class="card de-only">
+        <h3>Lebenslauf (DE)</h3>
+        <p>Aktueller Lebenslauf.</p>
+        <div class="card-actions doc-actions">
+          <button class="btn" type="button" data-download="docs/Lebenslauf_DE.pdf" data-filename="Lebenslauf_DE.pdf">Herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Lebenslauf_DE.pdf">Ansehen</button>
+        </div>
+      </article>
+
+      <article class="card en-only" hidden>
+        <h3>CV (EN)</h3>
+        <p>Current résumé in English.</p>
+        <div class="card-actions doc-actions">
+          <button class="btn" type="button" data-download="docs/CV_EN.pdf" data-filename="CV_EN.pdf">Download</button>
+          <button class="btn ghost" type="button" data-view="docs/CV_EN.pdf">View</button>
         </div>
       </article>
 
@@ -152,14 +180,30 @@
 <footer id="contact" class="footer">
   <h2>Kontakt</h2>
   <p><span>E-Mail:</span> <a href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a></p>
-  <p><span>Standort:</span> Mastershausen, DE - Koblenz, DE</p>
+  <p><span>Standort:</span> Mastershausen – Koblenz, DE</p>
+
+  <div class="contact-actions">
+    <a id="contact-email-btn" class="btn" href="mailto:mr.vetaleg@gmail.com?subject=Praktikum%20/%20Internship">E-Mail senden</a>
+    <a id="contact-linkedin-btn" class="btn ghost" href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank" rel="noopener">LinkedIn öffnen</a>
+  </div>
+
   <p class="tiny">© <span id="year"></span> · Alle Rechte vorbehalten.</p>
+
+  <div class="qr-box">
+    <p>📱 Scanne den QR-Code für schnellen Zugriff:</p>
+    <img id="qr-img" src="" alt="QR-Code zum Bewerbungsportal" width="160" height="160" loading="lazy"/>
+  </div>
 </footer>
+
+<div class="quick-footer">
+  <a class="qf-docs" href="#docs">📄 Unterlagen</a>
+  <a class="qf-contact" href="#contact">📧 Kontakt</a>
+</div>
 
 <div id="pdfModal" class="modal" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-label="Dokument-Vorschau">
     <button class="close" type="button" aria-label="Schließen" title="Schließen">&times;</button>
-    <iframe id="pdfFrame" src="" title="Dokument"></iframe>
+    <iframe id="pdfFrame" src="" title="Dokument" loading="lazy"></iframe>
   </div>
 </div>
 

@@ -1,5 +1,6 @@
 const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();
 
+/* Burger / mobile nav */
 const menuBtn=document.querySelector(".menu-toggle");
 const nav=document.querySelector(".nav");
 if(menuBtn&&nav){
@@ -8,6 +9,7 @@ if(menuBtn&&nav){
   window.addEventListener("resize",()=>{if(window.innerWidth>768){menuBtn.classList.remove("is-active");nav.classList.remove("active")}})
 }
 
+/* Modal PDF preview */
 function openPDF(src){
   const modal=document.getElementById("pdfModal");
   const frame=document.getElementById("pdfFrame");
@@ -25,7 +27,6 @@ function closePDF(){
   modal.style.display="none";
   document.body.classList.remove("modal-open");
 }
-
 document.querySelectorAll("[data-view]").forEach(btn=>{
   btn.addEventListener("click",e=>{
     e.preventDefault();
@@ -40,6 +41,7 @@ document.getElementById("pdfModal")?.addEventListener("click",e=>{
 });
 document.querySelector(".modal-content")?.addEventListener("click",e=>e.stopPropagation());
 
+/* Force download */
 async function forceDownload(url,filename){
   try{
     const res=await fetch(url,{cache:"no-cache",credentials:"same-origin"});
@@ -71,6 +73,7 @@ document.querySelectorAll("[data-download]").forEach(btn=>{
   });
 });
 
+/* Theme switch with smooth fade */
 const themeSegs=document.querySelectorAll(".theme-seg");
 const themeSwitch=document.querySelector(".theme-switch");
 function applyTheme(val){
@@ -84,6 +87,7 @@ const savedTheme=localStorage.getItem("theme")||"auto";
 applyTheme(savedTheme);
 themeSegs.forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme)));
 
+/* I18N */
 const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 
@@ -103,12 +107,6 @@ const I18N = {
     cv_item2_p: "Eigene Projekte im Bereich Webentwicklung, API-Design, Automatisierung und Benutzeroberflächen.",
     cv_btn: "Kompletter Lebenslauf unten",
     docs_h2: "Unterlagen",
-    docs_card1_h3: "Anschreiben · Cover Letter",
-    docs_card1_p: "Anschreiben für ein Pflichtpraktikum im IT-Bereich · Cover letter for an internship in software development.",
-    docs_card1_buttons: { de_dl:"DE herunterladen", de_view:"DE ansehen", en_dl:"EN download", en_view:"EN view" },
-    docs_card2_h3: "Lebenslauf · CV",
-    docs_card2_p: "Aktueller Lebenslauf in Deutsch und Englisch · Current CV in German and English.",
-    docs_card2_buttons: { de_dl:"DE herunterladen", de_view:"DE ansehen", en_dl:"EN download", en_view:"EN view" },
     docs_card3_h3: "Zeugnisse & Zertifikate",
     docs_card3_p: "Nachweise über Abschlüsse, Weiterbildungen und relevante Zertifikate.",
     docs_card3_buttons: { dl:"Herunterladen", view:"Im Browser ansehen" },
@@ -126,9 +124,15 @@ const I18N = {
     contact_h2: "Kontakt",
     contact_email_label: "E-Mail:",
     contact_loc_label: "Standort:",
+    contact_email_btn: "E-Mail senden",
+    contact_linkedin_btn: "LinkedIn öffnen",
     copyright: "Alle Rechte vorbehalten.",
     modal_arialabel: "Dokument-Vorschau",
-    modal_close_title: "Schließen"
+    modal_close_title: "Schließen",
+    qf_docs: "📄 Unterlagen",
+    qf_contact: "📧 Kontakt",
+    qr_text: "📱 Scanne den QR-Code für schnellen Zugriff:",
+    qr_alt: "QR-Code zum Bewerbungsportal"
   },
   en: {
     title: "Application Documents — Your Name",
@@ -145,12 +149,6 @@ const I18N = {
     cv_item2_p: "Personal projects in web development, API design, automation and user interfaces.",
     cv_btn: "Full résumé below",
     docs_h2: "Documents",
-    docs_card1_h3: "Cover Letter",
-    docs_card1_p: "Cover letter for a mandatory internship in software development.",
-    docs_card1_buttons: { de_dl:"Download DE", de_view:"View DE", en_dl:"Download EN", en_view:"View EN" },
-    docs_card2_h3: "CV / Résumé",
-    docs_card2_p: "Up-to-date résumé in German and English.",
-    docs_card2_buttons: { de_dl:"Download DE", de_view:"View DE", en_dl:"Download EN", en_view:"View EN" },
     docs_card3_h3: "Certificates",
     docs_card3_p: "Proof of degrees, trainings and relevant certificates.",
     docs_card3_buttons: { dl:"Download", view:"View in browser" },
@@ -168,9 +166,15 @@ const I18N = {
     contact_h2: "Contact",
     contact_email_label: "Email:",
     contact_loc_label: "Location:",
+    contact_email_btn: "Send email",
+    contact_linkedin_btn: "Open LinkedIn",
     copyright: "All rights reserved.",
     modal_arialabel: "Document preview",
-    modal_close_title: "Close"
+    modal_close_title: "Close",
+    qf_docs: "📄 Documents",
+    qf_contact: "📧 Contact",
+    qr_text: "📱 Scan the QR code for quick access:",
+    qr_alt: "QR code to the application page"
   }
 };
 
@@ -180,56 +184,33 @@ function getLang(){
   const browser = (navigator.language||"").slice(0,2).toLowerCase();
   return I18N[browser] ? browser : DEFAULT_LANG;
 }
-
 function setBrandWord(word){
   const brand = document.querySelector(".brand");
   if(!brand) return;
   const letters = word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("");
   brand.innerHTML = letters;
 }
-
-function langOfUrl(u){
-  if(!u) return "de";
-  const s=u.toUpperCase();
-  if(/(^|[_-])EN(\.|_|$)/.test(s)) return "en";
-  if(/(^|[_-])DE(\.|_|$)/.test(s)) return "de";
-  if(/\bEN\b/.test(s)) return "en";
-  if(/\bDE\b/.test(s)) return "de";
-  return "de";
+function toggleDocCards(lang){
+  document.querySelectorAll(".de-only").forEach(el=>el.hidden = (lang!=="de"));
+  document.querySelectorAll(".en-only").forEach(el=>el.hidden = (lang!=="en"));
 }
-
-function filterDocsByLang(lang){
-  const cards=document.querySelectorAll("#docs .cards > .card");
-  cards.forEach(card=>{
-    const btns=card.querySelectorAll(".btn");
-    let has=false;
-    btns.forEach(btn=>{
-      const url=btn.getAttribute("data-download")||btn.getAttribute("data-view")||"";
-      const dl=langOfUrl(url);
-      const show=(dl===lang);
-      btn.style.display=show?"":"none";
-      btn.setAttribute("aria-hidden",String(!show));
-      if(show) has=true;
-    });
-    if(!has){
-      card.style.display="none";
-      card.setAttribute("aria-hidden","true");
-    }else{
-      card.style.display="";
-      card.removeAttribute("aria-hidden");
-    }
-  });
+const headerEl=document.querySelector('.topbar');
+const qfEl=document.querySelector('.quick-footer');
+function syncOffsets(){
+  const h=headerEl?headerEl.offsetHeight:0;
+  const qf= (qfEl && getComputedStyle(qfEl).display!=="none") ? qfEl.offsetHeight : 0;
+  document.body.style.paddingTop = h+'px';
+  document.body.style.paddingBottom = Math.max(0,qf-10)+'px';
 }
-
-const header=document.querySelector('.topbar');
-function syncHeaderOffset(){ if(header){ document.body.style.paddingTop = header.offsetHeight + 'px'; } }
-window.addEventListener('load', syncHeaderOffset);
-window.addEventListener('resize', syncHeaderOffset);
+window.addEventListener('load',syncOffsets);
+window.addEventListener('resize',syncOffsets);
 
 function applyTranslations(lang){
   const t = I18N[lang] || I18N[DEFAULT_LANG];
+
   document.title = t.title;
   document.documentElement.setAttribute("lang", lang);
+
   const navLinks = document.querySelectorAll(".nav a");
   if (navLinks.length >= 5) {
     navLinks[0].textContent = t.nav[0];
@@ -238,11 +219,13 @@ function applyTranslations(lang){
     navLinks[3].textContent = t.nav[3];
     navLinks[4].textContent = t.nav[4];
   }
+
   setBrandWord(t.heroWord);
   const subtitle = document.querySelector(".subtitle");
   if (subtitle) subtitle.textContent = t.heroSubtitle;
   const cta = document.querySelector(".cta");
   if (cta) cta.textContent = t.heroCta;
+
   const about = document.getElementById("about");
   if (about){
     const h2 = about.querySelector("h2");
@@ -250,6 +233,7 @@ function applyTranslations(lang){
     if(h2) h2.textContent = t.about_h2;
     if(p)  p.textContent  = t.about_p;
   }
+
   const cv = document.getElementById("cv");
   if (cv){
     const h2 = cv.querySelector("h2");
@@ -270,96 +254,64 @@ function applyTranslations(lang){
     }
     if(btn) btn.textContent = t.cv_btn;
   }
+
   const docs = document.getElementById("docs");
   if (docs){
     const h2 = docs.querySelector("h2");
     if(h2) h2.textContent = t.docs_h2;
-    const cards = docs.querySelectorAll(".cards > .card");
+
+    const cards = docs.querySelectorAll(".cards > .card:not(.de-only):not(.en-only)");
     if(cards[0]){
       const h3 = cards[0].querySelector("h3");
       const p  = cards[0].querySelector("p");
-      const [b1,b2,b3,b4] = cards[0].querySelectorAll(".doc-actions .btn");
-      if(h3) h3.textContent = t.docs_card1_h3;
-      if(p)  p.textContent  = t.docs_card1_p;
-      if(b1) b1.textContent = t.docs_card1_buttons.de_dl;
-      if(b2) b2.textContent = t.docs_card1_buttons.de_view;
-      if(b3) b3.textContent = t.docs_card1_buttons.en_dl;
-      if(b4) b4.textContent = t.docs_card1_buttons.en_view;
-    }
-    if(cards[1]){
-      const h3 = cards[1].querySelector("h3");
-      const p  = cards[1].querySelector("p");
-      const [b1,b2,b3,b4] = cards[1].querySelectorAll(".doc-actions .btn");
-      if(h3) h3.textContent = t.docs_card2_h3;
-      if(p)  p.textContent  = t.docs_card2_p;
-      if(b1) b1.textContent = t.docs_card2_buttons.de_dl;
-      if(b2) b2.textContent = t.docs_card2_buttons.de_view;
-      if(b3) b3.textContent = t.docs_card2_buttons.en_dl;
-      if(b4) b4.textContent = t.docs_card2_buttons.en_view;
-    }
-    if(cards[2]){
-      const h3 = cards[2].querySelector("h3");
-      const p  = cards[2].querySelector("p");
-      const [b1,b2] = cards[2].querySelectorAll(".card-actions .btn");
+      const [b1,b2] = cards[0].querySelectorAll(".card-actions .btn");
       if(h3) h3.textContent = t.docs_card3_h3;
       if(p)  p.textContent  = t.docs_card3_p;
       if(b1) b1.textContent = t.docs_card3_buttons.dl;
       if(b2) b2.textContent = t.docs_card3_buttons.view;
     }
-    if(cards[3]){
-      const h3 = cards[3].querySelector("h3");
-      const p  = cards[3].querySelector("p");
-      const [b1,b2] = cards[3].querySelectorAll(".card-actions .btn");
+    if(cards[1]){
+      const h3 = cards[1].querySelector("h3");
+      const p  = cards[1].querySelector("p");
+      const [b1,b2] = cards[1].querySelectorAll(".card-actions .btn");
       if(h3) h3.textContent = t.docs_card4_h3;
       if(p)  p.textContent  = t.docs_card4_p;
       if(b1) b1.textContent = t.docs_card4_buttons.dl;
       if(b2) b2.textContent = t.docs_card4_buttons.view;
     }
-    if(cards[4]){
-      const h3 = cards[4].querySelector("h3");
-      const p  = cards[4].querySelector("p");
-      const [b1] = cards[4].querySelectorAll(".card-actions .btn");
+    if(cards[2]){
+      const h3 = cards[2].querySelector("h3");
+      const p  = cards[2].querySelector("p");
+      const [b1] = cards[2].querySelectorAll(".card-actions .btn");
       if(h3) h3.textContent = t.docs_card5_h3;
       if(p)  p.textContent  = t.docs_card5_p;
       if(b1) b1.textContent = t.docs_card5_buttons.dl;
     }
   }
-  const projects = document.getElementById("projects");
-  if (projects){
-    const h2 = projects.querySelector("h2");
-    const items = projects.querySelectorAll(".projects .proj");
-    if(h2) h2.textContent = t.projects_h2;
-    if(items[0]){
-      const h3 = items[0].querySelector("h3");
-      const p  = items[0].querySelector("p");
-      if(h3) h3.textContent = t.proj1_h3;
-      if(p)  p.textContent  = t.proj1_p;
-    }
-    if(items[1]){
-      const h3 = items[1].querySelector("h3");
-      const p  = items[1].querySelector("p");
-      if(h3) h3.textContent = t.proj2_h3;
-      if(p)  p.textContent  = t.proj2_p;
-    }
-  }
+
   const contact = document.getElementById("contact");
   if (contact){
     const h2 = contact.querySelector("h2");
     const ps = contact.querySelectorAll("p");
     const tiny = contact.querySelector(".tiny");
     if(h2) h2.textContent = t.contact_h2;
-    if(ps[0]){
-      const emailLabel = ps[0].querySelector("span");
-      if(emailLabel) emailLabel.textContent = t.contact_email_label;
-    }
-    if(ps[1]){
-      ps[1].innerHTML = `<span>${t.contact_loc_label}</span> Mastershausen, DE – Koblenz, DE`;
-    }
+    if(ps[0]){ const s=ps[0].querySelector("span"); if(s) s.textContent=t.contact_email_label; }
+    if(ps[1]){ ps[1].innerHTML = `<span>${t.contact_loc_label}</span> Mastershausen – Koblenz, DE`; }
     if(tiny){
       const year = new Date().getFullYear();
       tiny.textContent = `© ${year} · ${t.copyright}`;
     }
+    const emailBtn=document.getElementById("contact-email-btn");
+    const liBtn=document.getElementById("contact-linkedin-btn");
+    if(emailBtn) emailBtn.textContent = t.contact_email_btn;
+    if(liBtn) liBtn.textContent = t.contact_linkedin_btn;
   }
+
+  const qfDocs=document.querySelector(".qf-docs");
+  const qfContact=document.querySelector(".qf-contact");
+  if(qfDocs) qfDocs.textContent = t.qf_docs;
+  if(qfContact) qfContact.textContent = t.qf_contact;
+
   const modalContent = document.querySelector(".modal-content");
   const modalClose = document.querySelector(".close");
   if(modalContent) modalContent.setAttribute("aria-label", t.modal_arialabel);
@@ -367,19 +319,31 @@ function applyTranslations(lang){
     modalClose.setAttribute("aria-label", t.modal_close_title);
     modalClose.setAttribute("title", t.modal_close_title);
   }
+
+  // QR по текущему URL
+  const qrText=document.querySelector(".qr-box p");
+  const qrImg=document.getElementById("qr-img");
+  if(qrText) qrText.textContent = t.qr_text;
+  if(qrImg){
+    qrImg.alt = t.qr_alt;
+    const url = window.location.href;
+    qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(url);
+  }
+
   document.querySelectorAll(".lang-btn").forEach(b=>{
     b.setAttribute("aria-pressed", String(b.dataset.lang===lang));
   });
-  filterDocsByLang(lang);
-  syncHeaderOffset();
+
+  toggleDocCards(lang);
+  syncOffsets();
 }
 
+/* language switch */
 function setLanguage(lang){
   if(!I18N[lang]) lang = DEFAULT_LANG;
   localStorage.setItem(LS_LANG, lang);
   applyTranslations(lang);
 }
-
 const langBtns=document.querySelectorAll(".lang-btn");
 langBtns.forEach(b=>{
   b.addEventListener("click",()=>{
@@ -387,4 +351,6 @@ langBtns.forEach(b=>{
     setLanguage(lang);
   });
 });
+
+/* init */
 applyTranslations(getLang());
