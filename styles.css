@@ -327,8 +327,8 @@ html, body { height: 100%; margin: 0; font-family: Inter, system-ui, -apple-syst
     top: 60px;
     left: 0;
     flex-direction: column;
-    background: color-mix(in oklab, var(--bg) 80%, transparent);
-    backdrop-filter: blur(10px);
+    background: color-mix(in oklab, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
     padding: 20px;
     width: auto;
     min-width: 200px;

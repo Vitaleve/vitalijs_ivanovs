@@ -18,29 +18,29 @@ document.querySelectorAll('.section, .card, .proj').forEach((el) => {
 
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
-
-function closeNav(){
-  nav.classList.remove('active');
-  menuToggle.classList.remove('is-active');
-  menuToggle.setAttribute('aria-expanded','false');
-}
-function openNav(){
-  nav.classList.add('active');
-  menuToggle.classList.add('is-active');
-  menuToggle.setAttribute('aria-expanded','true');
-}
-
 if (menuToggle && nav) {
-  menuToggle.setAttribute('aria-expanded','false');
   menuToggle.addEventListener('click', () => {
-    if (nav.classList.contains('active')) closeNav(); else openNav();
+    nav.classList.toggle('active');
+    menuToggle.classList.toggle('is-active');
   });
-  nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') closeNav(); });
+  nav.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+      nav.classList.remove('active');
+      menuToggle.classList.remove('is-active');
+    }
+  });
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) closeNav();
+    if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) {
+      nav.classList.remove('active');
+      menuToggle.classList.remove('is-active');
+    }
   });
-  window.addEventListener('resize', () => { if (window.innerWidth > 768) closeNav(); });
-  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeNav(); });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      nav.classList.remove('active');
+      menuToggle.classList.remove('is-active');
+    }
+  });
 }
 
 document.addEventListener('click', async (e) => {
@@ -72,23 +72,7 @@ async function forceDownload(url, filename) {
     const blob = new Blob([buffer], { type: 'application/octet-stream' });
     triggerDownloadFromBlob(blob, filename);
   } catch (_) {
-    try {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.responseType = 'blob';
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          const blob = new Blob([xhr.response], { type: 'application/octet-stream' });
-          triggerDownloadFromBlob(blob, filename);
-        } else {
-          fallbackLink(url, filename);
-        }
-      };
-      xhr.onerror = function () { fallbackLink(url, filename); };
-      xhr.send();
-    } catch (_) {
-      fallbackLink(url, filename);
-    }
+    fallbackLink(url, filename);
   }
 }
 
@@ -140,5 +124,9 @@ function closePDF() {
   document.body.classList.remove('modal-open');
 }
 
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePDF(); });
-document.getElementById('pdfModal')?.addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closePDF(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePDF();
+});
+document.getElementById('pdfModal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'pdfModal') closePDF();
+});
