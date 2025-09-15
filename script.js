@@ -346,12 +346,15 @@ function applyTranslations(lang){
   if (contact){
     const h2 = contact.querySelector("h2");
     const ps = contact.querySelectorAll("p");
-    const emailLabel = ps[0]?.querySelector("span");
-    const locLabel   = ps[1]?.querySelector("span");
-    const tiny       = contact.querySelector(".tiny");
+    const tiny = contact.querySelector(".tiny");
     if(h2) h2.textContent = t.contact_h2;
-    if(emailLabel) emailLabel.textContent = t.contact_email_label;
-    if(locLabel)   locLabel.textContent   = t.contact_loc_label;
+    if(ps[0]){
+      const emailLabel = ps[0].querySelector("span");
+      if(emailLabel) emailLabel.textContent = t.contact_email_label;
+    }
+    if(ps[1]){
+      ps[1].innerHTML = `<span>${t.contact_loc_label}</span> Mastershausen, DE – Koblenz, DE`;
+    }
     if(tiny){
       const year = new Date().getFullYear();
       tiny.textContent = `© ${year} · ${t.copyright}`;
