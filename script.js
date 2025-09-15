@@ -221,6 +221,11 @@ function filterDocsByLang(lang){
   });
 }
 
+const header=document.querySelector('.topbar');
+function syncHeaderOffset(){ if(header){ document.body.style.paddingTop = header.offsetHeight + 'px'; } }
+window.addEventListener('load', syncHeaderOffset);
+window.addEventListener('resize', syncHeaderOffset);
+
 function applyTranslations(lang){
   const t = I18N[lang] || I18N[DEFAULT_LANG];
   document.title = t.title;
@@ -363,6 +368,7 @@ function applyTranslations(lang){
     b.setAttribute("aria-pressed", String(b.dataset.lang===lang));
   });
   filterDocsByLang(lang);
+  syncHeaderOffset();
 }
 
 function setLanguage(lang){
