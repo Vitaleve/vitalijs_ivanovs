@@ -67,13 +67,7 @@ function openPDF(path){
   if(!modal||!frame)return;
 
   const src=normalizePath(path);
-  if(isFileProto){
-    frame.src=src+'#zoom=page-width';
-  }else{
-    const viewer='https://unpkg.com/pdfjs-dist@3.11.174/web/viewer.html?file='+
-      encodeURIComponent(src)+'#zoom=page-width&pagemode=none';
-    frame.src=viewer;
-  }
+  frame.src=src+(src.includes('#')?'&':'#')+'zoom=page-width';
 
   modal.style.display='flex';
   modal.setAttribute('aria-hidden','false');
