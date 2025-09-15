@@ -7,12 +7,15 @@
   <meta name="description" content="Bewerbung, Lebenslauf, Projekte, Zeugnisse." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- используем display=optional, чтобы не было «прыжка» из-за подмены шрифта -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=optional" rel="stylesheet">
 </head>
 <body>
 <header class="topbar" role="banner">
-  <button class="menu-toggle" aria-label="Menü öffnen" type="button">☰</button>
+  <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" type="button">
+    <span class="bar bar-top"></span>
+    <span class="bar bar-mid"></span>
+    <span class="bar bar-bot"></span>
+  </button>
   <nav class="nav">
     <a href="#about">Über mich</a>
     <a href="#cv">Lebenslauf</a>

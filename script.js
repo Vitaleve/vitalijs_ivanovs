@@ -18,30 +18,28 @@ document.querySelectorAll('.section, .card, .proj').forEach((el) => {
 
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
+
 function closeNav(){
   nav.classList.remove('active');
+  menuToggle.classList.remove('is-active');
   menuToggle.setAttribute('aria-expanded','false');
-  menuToggle.textContent = '☰';
 }
 function openNav(){
   nav.classList.add('active');
+  menuToggle.classList.add('is-active');
   menuToggle.setAttribute('aria-expanded','true');
-  menuToggle.textContent = '✕';
 }
+
 if (menuToggle && nav) {
   menuToggle.setAttribute('aria-expanded','false');
   menuToggle.addEventListener('click', () => {
     if (nav.classList.contains('active')) closeNav(); else openNav();
   });
-  nav.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') closeNav();
-  });
+  nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') closeNav(); });
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) closeNav();
   });
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) closeNav();
-  });
+  window.addEventListener('resize', () => { if (window.innerWidth > 768) closeNav(); });
   document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeNav(); });
 }
 
@@ -142,9 +140,5 @@ function closePDF() {
   document.body.classList.remove('modal-open');
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closePDF();
-});
-document.getElementById('pdfModal')?.addEventListener('click', (e) => {
-  if (e.target.id === 'pdfModal') closePDF();
-});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePDF(); });
+document.getElementById('pdfModal')?.addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closePDF(); });
