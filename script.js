@@ -1,3 +1,21 @@
+history.scrollRestoration="auto";
+
+const SCROLL_KEY="last_scroll_pos";
+const saveScroll=()=>{try{localStorage.setItem(SCROLL_KEY,String(window.pageYOffset||window.scrollY||0))}catch(e){}};
+window.addEventListener("beforeunload",saveScroll,{passive:true});
+window.addEventListener("pagehide",saveScroll,{passive:true});
+window.addEventListener("pageshow",e=>{
+  if(location.hash) return;
+  let saved=0;
+  try{saved=parseInt(localStorage.getItem(SCROLL_KEY)||"0",10)||0}catch(_){}
+  if(saved<=1){
+    const toTop=()=>window.scrollTo(0,0);
+    requestAnimationFrame(()=>{toTop();requestAnimationFrame(toTop);});
+    setTimeout(toTop,0);
+    setTimeout(toTop,60);
+  }
+});
+
 const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();
 
 const menuBtn=document.querySelector(".menu-toggle");
@@ -85,28 +103,8 @@ themeSegs.forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme))
 const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 const I18N={
-  de:{
-    title:"Vitalijs Ivanovs Praktikum",
-    nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],
-    heroWord:"BEWERBUNG",
-    heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",
-    heroCta:"Unterlagen ansehen",
-    qf_docs:"📄 Unterlagen",
-    qf_contact:"📧 Kontakt",
-    modal_close:"Schließen",
-    qr_alt:"QR-Code zum Bewerbungsportal"
-  },
-  en:{
-    title:"Vitalijs Ivanovs Praktikum",
-    nav:["About me","CV","Documents","Projects","Contact"],
-    heroWord:"APPLICATION",
-    heroSubtitle:"Mandatory internship as IT specialist for application development",
-    heroCta:"View documents",
-    qf_docs:"📄 Documents",
-    qf_contact:"📧 Contact",
-    modal_close:"Close",
-    qr_alt:"QR code to the application page"
-  }
+  de:{title:"Vitalijs Ivanovs Praktikum",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",heroCta:"Unterlagen ansehen",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal"},
+  en:{title:"Vitalijs Ivanovs Praktikum",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page"}
 };
 
 function getLang(){
@@ -160,5 +158,3 @@ const io=new IntersectionObserver(entries=>{
   });
 },{root:null,rootMargin:"-40% 0px -55% 0px",threshold:[0,0.25,0.5,0.75,1]});
 sections.forEach(sec=>io.observe(sec));
-
-if("serviceWorker" in navigator){navigator.serviceWorker.register("service-worker.js")}
