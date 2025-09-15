@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="auto">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bewerbungsunterlagen — Dein Name</title>
   <meta name="description" content="Bewerbung, Lebenslauf, Projekte, Zeugnisse." />
-  <link rel="stylesheet" href="styles.css?v=12" />
+  <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <header class="topbar" role="banner">
-  <button class="menu-toggle" aria-label="Menü öffnen/schließen" type="button">
+  <button class="menu-toggle" aria-label="Menü">
     <span class="bar bar-top"></span>
     <span class="bar bar-mid"></span>
     <span class="bar bar-bot"></span>
@@ -23,9 +23,17 @@
     <a href="#projects">Projekte</a>
     <a href="#contact">Kontakt</a>
   </nav>
-  <div class="lang-switch" aria-label="Language switch">
-    <button class="lang-btn" data-lang="de" aria-pressed="true" type="button">DE</button>
-    <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">EN</button>
+  <div class="header-controls">
+    <div class="lang-switch" aria-label="Language">
+      <button class="lang-btn" data-lang="de" aria-pressed="true" type="button">DE</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">EN</button>
+    </div>
+    <div class="theme-switch" aria-label="Theme" data-active="auto">
+      <button type="button" class="theme-seg" data-theme="auto" aria-pressed="true">A</button>
+      <button type="button" class="theme-seg" data-theme="light" aria-pressed="false">☀︎</button>
+      <button type="button" class="theme-seg" data-theme="dark" aria-pressed="false">🌙</button>
+      <span class="thumb"></span>
+    </div>
   </div>
 </header>
 
@@ -44,7 +52,7 @@
     </div>
   </div>
   <h1 class="brand" tabindex="0">
-    <span>P</span><span>r</span><span>a</span><span>k</span><span>t</span><span>i</span><span>k</span><span>u</span><span>m</span>
+    <span>B</span><span>E</span><span>W</span><span>E</span><span>R</span><span>B</span><span>U</span><span>N</span><span>G</span>
   </h1>
   <p class="subtitle">Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung</p>
   <a href="#docs" class="cta">Unterlagen ansehen</a>
@@ -74,38 +82,32 @@
   <section id="docs" class="section">
     <h2>Unterlagen</h2>
     <div class="cards">
+
       <article class="card">
-        <h3>Anschreiben (DE)</h3>
-        <p>Anschreiben für Bewerbungen auf ein Pflichtpraktikum im IT-Bereich.</p>
-        <div class="card-actions">
-          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf">Herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf">Im Browser ansehen</button>
+        <h3>Anschreiben · Cover Letter</h3>
+        <p>Anschreiben für ein Pflichtpraktikum im IT-Bereich · Cover letter for an internship in software development.</p>
+        <div class="card-actions doc-actions">
+          <button class="btn" type="button" data-download="docs/Anschreiben_DE.pdf" data-filename="Anschreiben_DE.pdf">DE herunterladen</button>
+          <button class="btn ghost" type="button" data-view="docs/Anschreiben_DE.pdf">DE ansehen</button>
+          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf">EN download</button>
+          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf">EN view</button>
         </div>
       </article>
 
       <article class="card">
-        <h3>Cover Letter (EN)</h3>
-        <p>Cover letter for applications for an internship in software development.</p>
-        <div class="card-actions">
-          <button class="btn" type="button" data-download="docs/CoverLetter_EN.pdf" data-filename="CoverLetter_EN.pdf">Download</button>
-          <button class="btn ghost" type="button" data-view="docs/CoverLetter_EN.pdf">View in Browser</button>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>Lebenslauf / CV</h3>
-        <p>Aktueller Lebenslauf in Deutsch und Englisch.</p>
-        <div class="card-actions">
+        <h3>Lebenslauf · CV</h3>
+        <p>Aktueller Lebenslauf in Deutsch und Englisch · Current CV in German and English.</p>
+        <div class="card-actions doc-actions">
           <button class="btn" type="button" data-download="docs/Lebenslauf_DE.pdf" data-filename="Lebenslauf_DE.pdf">DE herunterladen</button>
           <button class="btn ghost" type="button" data-view="docs/Lebenslauf_DE.pdf">DE ansehen</button>
-          <button class="btn" type="button" data-download="docs/CV_EN.pdf" data-filename="CV_EN.pdf">EN herunterladen</button>
-          <button class="btn ghost" type="button" data-view="docs/CV_EN.pdf">EN ansehen</button>
+          <button class="btn" type="button" data-download="docs/CV_EN.pdf" data-filename="CV_EN.pdf">EN download</button>
+          <button class="btn ghost" type="button" data-view="docs/CV_EN.pdf">EN view</button>
         </div>
       </article>
 
       <article class="card">
         <h3>Zeugnisse & Zertifikate</h3>
-        <p>Nachweise über bisherige Abschlüsse, Weiterbildungen und relevante Zertifikate.</p>
+        <p>Nachweise über Abschlüsse, Weiterbildungen und relevante Zertifikate.</p>
         <div class="card-actions">
           <button class="btn" type="button" data-download="docs/Zeugnisse.pdf" data-filename="Zeugnisse.pdf">Herunterladen</button>
           <button class="btn ghost" type="button" data-view="docs/Zeugnisse.pdf">Im Browser ansehen</button>
@@ -123,24 +125,25 @@
 
       <article class="card">
         <h3>Alle Unterlagen (ZIP)</h3>
-        <p>Kompakte Sammlung aller Bewerbungsunterlagen in einer Datei.</p>
+        <p>Gesamtes Paket aller Dokumente.</p>
         <div class="card-actions">
           <button class="btn" type="button" data-download="docs/Alle_Unterlagen.zip" data-filename="Alle_Unterlagen.zip">Herunterladen</button>
         </div>
       </article>
+
     </div>
   </section>
 
   <section id="projects" class="section">
-    <h2>Projekte</h2>
+    <h2>Ausgewählte Projekte</h2>
     <div class="projects">
       <article class="proj">
-        <h3>Interactive Hero UI</h3>
-        <p>Hover-Effekt mit Bildkollage und animierter Typografie.</p>
+        <h3>Travel World UI</h3>
+        <p>Interaktives Hero mit Hover-Reveal, Collage-Layout und flüssiger Motion.</p>
       </article>
       <article class="proj">
-        <h3>API-Tooling</h3>
-        <p>Kleine Services für Automatisierung und Datenverarbeitung.</p>
+        <h3>API · FastAPI</h3>
+        <p>Service-Design, Endpunkte, Fehlerbehandlung und einfache Authentifizierung.</p>
       </article>
     </div>
   </section>
@@ -160,6 +163,6 @@
   </div>
 </div>
 
-<script src="script.js?v=12"></script>
+<script src="script.js"></script>
 </body>
 </html>
