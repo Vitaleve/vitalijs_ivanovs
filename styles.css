@@ -12,20 +12,33 @@ body.modal-open{overflow:hidden}
 .lang-switch{display:flex;gap:8px;align-items:center;margin-left:auto}
 .lang-btn{border:1px solid color-mix(in oklab,var(--fg) 15%,transparent);background:transparent;color:var(--fg);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600}
 .lang-btn[aria-pressed=true]{background:var(--accent);color:#fff;border-color:transparent}
-.menu-toggle{display:none;font-size:28px;background:none;border:none;color:var(--fg);cursor:pointer}
+.menu-toggle{display:none;font-size:28px;background:none;border:none;color:var(--fg);cursor:pointer;line-height:1}
 
 @media (max-width:768px){
   .menu-toggle{display:block;margin-left:16px;margin-right:auto}
   .topbar{position:sticky;top:0;z-index:60}
   .nav{
-    display:none;position:absolute;top:calc(100% + 8px);left:12px;flex-direction:column;gap:12px;padding:14px 16px;border-radius:14px;
+    position:absolute;top:calc(100% + 8px);left:12px;
+    display:block;
+    padding:14px 16px;border-radius:14px;
     border:1px solid color-mix(in oklab,var(--fg) 15%,transparent);
     background:color-mix(in oklab,var(--bg) 85%,transparent);
     backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);
     width:max-content;max-width:80vw;box-shadow:0 14px 36px rgba(0,0,0,.45)
   }
-  .nav a{white-space:nowrap}
-  .nav.active{display:flex}
+  .nav a{display:block;white-space:nowrap;margin:8px 0}
+  /* анимация выпадения */
+  .nav{
+    transform-origin: top;
+    transform: translateY(-10px) scaleY(.96);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition: transform .22s cubic-bezier(.2,.9,.2,1), opacity .18s ease, visibility 0s linear .22s;
+  }
+  .nav.active{
+    transform: translateY(0) scaleY(1);
+    opacity:1; visibility:visible; pointer-events:auto;
+    transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .22s ease;
+  }
   .lang-switch{display:flex;margin-left:auto;margin-right:16px}
 }
 
@@ -44,7 +57,6 @@ body.modal-open{overflow:hidden}
   transform:scale(1.02);transition:transform .8s ease;
   aspect-ratio:1/1;display:block
 }
-
 .brand{font-size:clamp(48px,10vw,120px);letter-spacing:.06em;margin:0;text-transform:uppercase;display:flex;gap:.05em;font-weight:800;cursor:default;transition:transform .6s cubic-bezier(.2,.8,.2,1),letter-spacing .6s}
 .brand span{display:inline-block;transform:translateY(0);transition:transform .5s ease}
 .subtitle{margin-top:8px;color:var(--muted);max-width:70ch;text-align:center}
@@ -72,12 +84,15 @@ body.modal-open{overflow:hidden}
 .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;border:none;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 20%,transparent)}
 .link{color:var(--accent);text-decoration:none}
+
 .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .proj{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px}
+
 .footer{padding:50px 24px 80px;text-align:center;border-top:1px solid color-mix(in oklab,var(--fg) 10%,transparent)}
 .footer a{color:#2ecc71;text-decoration:none;font-weight:600}
 .footer a:hover{color:#27ae60;text-decoration:underline}
 .tiny{color:var(--muted);font-size:.9rem}
+
 .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
 .reveal.is-visible{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}

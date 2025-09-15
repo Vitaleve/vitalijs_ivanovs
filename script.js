@@ -1,37 +1,5 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
-(function setupScrollRestore(){
-  const navEntry = performance.getEntriesByType('navigation')[0];
-  const isReload = navEntry ? navEntry.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
-  if (!isReload) return;
-  if (location.hash) return;
-
-  const saved = sessionStorage.getItem('scrollY');
-  const y = saved ? parseInt(saved, 10) : 0;
-
-  if (Number.isFinite(y) && y > 0) {
-    let t0 = performance.now();
-    const end = t0 + 800; // мягкая «поддержка» ~0.8с, без дерганий
-    const target = y;
-    const tick = () => {
-      if (performance.now() > end) return;
-      if (Math.abs(window.scrollY - target) > 2) window.scrollTo(0, target);
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-  sessionStorage.removeItem('scrollY');
-})();
-
-(function setupScrollSave(){
-  const save = () => {
-    if (location.hash) return;
-    sessionStorage.setItem('scrollY', String(window.scrollY || document.documentElement.scrollTop || 0));
-  };
-  window.addEventListener('beforeunload', save, {capture:true});
-  window.addEventListener('pagehide', save, {capture:true});
-})();
-
 const io = new IntersectionObserver(
   (entries) => {
     entries.forEach((e) => {
@@ -50,11 +18,31 @@ document.querySelectorAll('.section, .card, .proj').forEach((el) => {
 
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
+function closeNav(){
+  nav.classList.remove('active');
+  menuToggle.setAttribute('aria-expanded','false');
+  menuToggle.textContent = '☰';
+}
+function openNav(){
+  nav.classList.add('active');
+  menuToggle.setAttribute('aria-expanded','true');
+  menuToggle.textContent = '✕';
+}
 if (menuToggle && nav) {
-  menuToggle.addEventListener('click', () => nav.classList.toggle('active'));
-  nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') nav.classList.remove('active'); });
-  document.addEventListener('click', (e) => { if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) nav.classList.remove('active'); });
-  window.addEventListener('resize', () => { if (window.innerWidth > 768) nav.classList.remove('active'); });
+  menuToggle.setAttribute('aria-expanded','false');
+  menuToggle.addEventListener('click', () => {
+    if (nav.classList.contains('active')) closeNav(); else openNav();
+  });
+  nav.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') closeNav();
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav') && !e.target.closest('.menu-toggle')) closeNav();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeNav();
+  });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeNav(); });
 }
 
 document.addEventListener('click', async (e) => {
@@ -154,5 +142,9 @@ function closePDF() {
   document.body.classList.remove('modal-open');
 }
 
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePDF(); });
-document.getElementById('pdfModal')?.addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closePDF(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePDF();
+});
+document.getElementById('pdfModal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'pdfModal') closePDF();
+});
