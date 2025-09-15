@@ -86,7 +86,7 @@ const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 const I18N={
   de:{
-    title:"Bewerbungsunterlagen — Dein Name",
+    title:"Vitalijs Ivanovs Praktikum",
     nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],
     heroWord:"BEWERBUNG",
     heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",
@@ -97,7 +97,7 @@ const I18N={
     qr_alt:"QR-Code zum Bewerbungsportal"
   },
   en:{
-    title:"Application Documents — Your Name",
+    title:"Vitalijs Ivanovs Praktikum",
     nav:["About me","CV","Documents","Projects","Contact"],
     heroWord:"APPLICATION",
     heroSubtitle:"Mandatory internship as IT specialist for application development",
