@@ -193,6 +193,21 @@
       </article>
     </div>
   </section>
+
+  <section id="projects" class="section" role="region" aria-labelledby="projects-heading">
+    <h2 id="projects-heading" class="de-only">Ausgewählte Projekte</h2>
+    <h2 class="en-only">Selected projects</h2>
+    <div class="projects">
+      <article class="proj">
+        <h3>Travel World UI</h3>
+        <p>Interaktives Hero mit Hover-Reveal, Collage-Layout und flüssiger Motion.</p>
+      </article>
+      <article class="proj">
+        <h3>API · FastAPI</h3>
+        <p>Service-Design, Endpunkte, Fehlerbehandlung und einfache Authentifizierung.</p>
+      </article>
+    </div>
+  </section>
 </main>
 
 <footer id="contact" class="footer" role="contentinfo" aria-labelledby="contact-heading">
@@ -230,7 +245,7 @@
     <p class="status" id="cf-status" role="status" aria-live="polite"></p>
   </form>
 
-  <p><span class="de-only">E-Mail:</span><span class="en-only">Email:</span> <a href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a></p>
+  <p><span class="de-only">E-Mail:</span><span class="en-only">Email:</span> <a id="mailto-link" href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a> <button id="copy-email" class="btn ghost" type="button" aria-label="E-Mail kopieren">Kopieren</button></p>
   <p><span class="de-only">Standort:</span><span class="en-only">Location:</span> Mastershausen – Koblenz, DE</p>
   <div class="contact-actions">
     <a id="contact-linkedin-btn" class="btn ghost de-only" href="https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/" target="_blank" rel="noopener">LinkedIn öffnen</a>
@@ -248,6 +263,7 @@
   <div class="modal-content" role="dialog" aria-modal="true" aria-label="Preview">
     <button class="close" type="button" aria-label="Close" title="Close">&times;</button>
     <iframe id="pdfFrame" src="" title="Dokument" loading="lazy"></iframe>
+    <div class="modal-status" id="pdfStatus" aria-live="polite"></div>
   </div>
 </div>
 

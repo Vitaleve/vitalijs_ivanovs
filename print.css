@@ -1,0 +1,13 @@
+@page{size:A4;margin:18mm}
+:root{color-scheme:light only}
+*{box-shadow:none!important;text-shadow:none!important}
+html,body{background:#fff!important;color:#000!important}
+.topbar,.hero,.quick-footer,.lang-switch,.theme-switch,.menu-toggle,.qr-box,.contact-actions{display:none!important}
+.section{max-width:auto;padding:0 0 14px;margin:0 auto;border:none}
+.section h2{margin:0 0 8px;font-size:20pt}
+.section p,.card p{color:#000}
+.cards,.projects{display:block}
+.card,.proj{border:1px solid #000;padding:12px;border-radius:0;margin:10px 0;background:#fff}
+.card-actions,.doc-actions,.cta,.btn{display:none!important}
+.footer{padding:0;border:none;text-align:left}
+a{color:#000;text-decoration:underline}
