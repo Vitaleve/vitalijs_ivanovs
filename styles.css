@@ -85,7 +85,7 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .contact-form{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px;max-width:760px;margin:18px auto}
 .contact-form .field{display:flex;flex-direction:column;margin-bottom:12px}
 .contact-form label{font-weight:700;margin-bottom:6px}
-.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 25%,transparent);border-radius:10px;padding:10px 12px}
+.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 25%,transparent);border-radius:10px;padding:10px 12px;font-size:16px}
 .contact-form textarea{resize:vertical;min-height:140px}
 .contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
 .contact-form .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}

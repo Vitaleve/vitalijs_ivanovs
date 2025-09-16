@@ -21,9 +21,11 @@ const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYea
 const menuBtn=document.querySelector(".menu-toggle");
 const nav=document.querySelector(".nav");
 if(menuBtn&&nav){
+  const close=()=>{menuBtn.classList.remove("is-active");nav.classList.remove("active")};
   menuBtn.addEventListener("click",()=>{menuBtn.classList.toggle("is-active");nav.classList.toggle("active")});
-  document.addEventListener("click",e=>{if(!nav.contains(e.target)&&!menuBtn.contains(e.target)){menuBtn.classList.remove("is-active");nav.classList.remove("active")}});
-  window.addEventListener("resize",()=>{if(window.innerWidth>768){menuBtn.classList.remove("is-active");nav.classList.remove("active")}})
+  document.addEventListener("click",e=>{if(!nav.contains(e.target)&&!menuBtn.contains(e.target))close()});
+  window.addEventListener("resize",()=>{if(window.innerWidth>768)close()});
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{if(window.innerWidth<=768)close()}));
 }
 
 function openPDF(src){
@@ -290,6 +292,10 @@ copyBtn?.addEventListener("click",async()=>{
     setTimeout(()=>{copyBtn.classList.remove("copied")},1200);
   }catch(_){}
 });
+
+const inputs=document.querySelectorAll('input,textarea,select');
+inputs.forEach(i=>i.addEventListener('focus',()=>{document.documentElement.classList.add('kb-open')}));
+inputs.forEach(i=>i.addEventListener('blur',()=>{document.documentElement.classList.remove('kb-open')}));
 
 const backBtn=document.getElementById("backToTop");
 if(backBtn){
