@@ -183,7 +183,6 @@ function applyTranslations(lang){
   const navLinks=document.querySelectorAll(".nav a");
   if(navLinks.length>=5){navLinks[0].textContent=t.nav[0];navLinks[1].textContent=t.nav[1];navLinks[2].textContent=t.nav[2];navLinks[3].textContent=t.nav[3];navLinks[4].textContent=t.nav[4]}
   const subtitle=document.querySelector(".subtitle");if(subtitle)subtitle.textContent=t.heroSubtitle;
-  const cta=document.querySelector(".cta");if(cta)cta.textContent=t.heroCta;
   setBrandWord(t.heroWord);
   const qfDocs=document.querySelector(".qf-docs");if(qfDocs)qfDocs.textContent=t.qf_docs;
   const qfContact=document.querySelector(".qf-contact");if(qfContact)qfContact.textContent=t.qf_contact;
