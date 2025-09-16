@@ -31,7 +31,10 @@ const nav=document.querySelector(".nav");
 if(menuBtn&&nav){
   menuBtn.addEventListener("click",()=>{menuBtn.classList.toggle("is-active");nav.classList.toggle("active")});
   document.addEventListener("click",e=>{if(!nav.contains(e.target)&&!menuBtn.contains(e.target)){menuBtn.classList.remove("is-active");nav.classList.remove("active")}});
-  window.addEventListener("resize",()=>{if(window.innerWidth>768){menuBtn.classList.remove("is-active");nav.classList.remove("active")}})
+  window.addEventListener("resize",()=>{if(window.innerWidth>768){menuBtn.classList.remove("is-active");nav.classList.remove("active")}});
+  nav.querySelectorAll("a").forEach(a=>{
+    a.addEventListener("click",()=>{ if(window.innerWidth<=768){ menuBtn.classList.remove("is-active"); nav.classList.remove("active"); }});
+  });
 }
 
 function openPDF(src){
