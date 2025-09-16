@@ -1,19 +1,11 @@
-history.scrollRestoration="auto";
+history.scrollRestoration="manual";
 
-const SCROLL_KEY="last_scroll_pos";
-const saveScroll=()=>{try{localStorage.setItem(SCROLL_KEY,String(window.pageYOffset||window.scrollY||0))}catch(e){}};
-window.addEventListener("beforeunload",saveScroll,{passive:true});
-window.addEventListener("pagehide",saveScroll,{passive:true});
 window.addEventListener("pageshow",()=>{
-  if(location.hash) return;
-  let saved=0;
-  try{saved=parseInt(localStorage.getItem(SCROLL_KEY)||"0",10)||0}catch(_){}
-  if(saved<=1){
-    const toTop=()=>window.scrollTo(0,0);
-    requestAnimationFrame(()=>{toTop();requestAnimationFrame(toTop);});
-    setTimeout(toTop,0);
-    setTimeout(toTop,60);
-  }
+  if(location.hash)return;
+  const toTop=()=>window.scrollTo({top:0,left:0,behavior:"instant"});
+  requestAnimationFrame(()=>{toTop();requestAnimationFrame(toTop)});
+  setTimeout(toTop,0);
+  setTimeout(toTop,60);
 });
 
 const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();
@@ -52,7 +44,7 @@ document.querySelectorAll("[data-view]").forEach(btn=>{
     e.preventDefault();
     const src=btn.getAttribute("data-view");
     addStat(btn.getAttribute("data-stats-key")||"view");
-    if(window.plausible) plausible("View", {props:{file:src}});
+    if(window.plausible) plausible("View",{props:{file:src}});
     openPDF(src);
   });
 });
@@ -66,7 +58,7 @@ async function updatePdfStatus(url,el){
     const size=Number(res.headers.get("content-length")||0);
     const name=url.split("/").pop()||"Dokument";
     const human=size?humanSize(size):"";
-    const t=document.documentElement.getAttribute("lang")==="de" ? `${name} · ${human} · PDF` : `${name} · ${human} · PDF`;
+    const t=document.documentElement.getAttribute("lang")==="de"?`${name} · ${human} · PDF`:`${name} · ${human} · PDF`;
     el.textContent=t.trim();
   }catch(_){
     const name=url.split("/").pop()||"Dokument";
@@ -101,7 +93,7 @@ document.querySelectorAll("[data-download]").forEach(btn=>{
     const url=btn.getAttribute("data-download");
     const name=btn.getAttribute("data-filename")||url.split("/").pop();
     addStat(btn.getAttribute("data-stats-key")||name);
-    if(window.plausible) plausible("Download", {props:{file:name}});
+    if(window.plausible) plausible("Download",{props:{file:name}});
     forceDownload(url,name);
   });
 });

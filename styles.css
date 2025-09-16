@@ -4,6 +4,7 @@ html[data-theme="light"]{--bg:#f9fbfe;--fg:#0b0f14;--muted:#465367;--card:#f9fbf
 html[data-theme="dark"]{--bg:#0b0d12;--fg:#e8ecf1;--muted:#a9b3c1;--card:#0b0d12;--brand:#e8ecf1;--accent:#69c1ff;--focus:#69c1ff}
 *{box-sizing:border-box;scroll-behavior:smooth}
 html,body{height:100%}
+html,body{overflow-x:hidden}
 body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-text-size-adjust:100%}
 body.modal-open{overflow:hidden}
 html,body,.topbar,.nav,.card,.proj,.footer,.quick-footer,.modal-content,.subtitle,.section,.doc-actions .btn,.btn.ghost{transition:background-color .3s ease,color .3s ease,border-color .3s ease,transform .3s ease,box-shadow .3s ease}
