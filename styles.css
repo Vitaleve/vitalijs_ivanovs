@@ -56,7 +56,7 @@ html[data-theme="dark"] .theme-seg[aria-pressed=true]{color:#fff}
 .linkedin-icon{display:none}
 @media (max-width:768px){.linkedin-text{display:none}.linkedin-icon{display:inline}}
 
-.hero{min-height:52vh;display:grid;place-items:center;gap:14px;padding:96px 24px 40px;text-align:center}
+.hero{min-height:42vh;display:grid;place-items:center;gap:4px;padding:96px 24px 40px;text-align:center}
 .brand{font-size:clamp(44px,9.2vw,110px);letter-spacing:.06em;margin:0;text-transform:uppercase;display:flex;gap:.05em;font-weight:800;color:var(--brand);line-height:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),letter-spacing .6s}
 .brand span{display:inline-block;transform:translateY(0);transition:transform .45s ease}
 @media (hover:hover){
@@ -64,7 +64,7 @@ html[data-theme="dark"] .theme-seg[aria-pressed=true]{color:#fff}
   .brand:hover span:nth-child(odd),.brand:focus-visible span:nth-child(odd){transform:translateY(-6px)}
   .brand:hover span:nth-child(even),.brand:focus-visible span:nth-child(even){transform:translateY(6px)}
 }
-.subtitle{margin:0;color:var(--fg);max-width:92vw;padding:10px 14px;background:rgba(8,10,14,.45);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.subtitle{margin:0;color:var(--fg);max-width:92vw;padding:8px 12px;background:rgba(8,10,14,.45);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color:rgba(0,0,0,.08);color:#333}
 
 .section{padding:60px 24px;max-width:1100px;margin:0 auto}
@@ -135,12 +135,12 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 #backToTop.show{opacity:1;visibility:visible;transform:translateY(0)}
 
 @media (max-width:720px){
-  .hero{min-height:42vh;padding-top:86px}
+  .hero{min-height:40vh;padding-top:86px;gap:4px}
   .brand{font-size:clamp(36px,10.8vw,72px)}
   .subtitle{max-width:92vw}
 }
 @media (orientation:landscape) and (max-width:920px){
-  .hero{min-height:40vh;padding-top:76px}
+  .hero{min-height:38vh;padding-top:76px;gap:4px}
   .brand{font-size:clamp(28px,8.5vw,56px)}
 }
 @media (prefers-reduced-motion: reduce){
