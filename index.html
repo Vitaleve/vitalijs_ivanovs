@@ -14,14 +14,38 @@
   <meta name="twitter:description" content="Lebenslauf, Anschreiben, Projekte, Zertifikate. Praktikum 2026.">
   <meta name="twitter:image" content="assets/og.jpg">
   <meta name="theme-color" content="#0b0d12">
+  <link rel="canonical" href="">
+  <link rel="alternate" hreflang="de" href="">
+  <link rel="alternate" hreflang="en" href="">
   <link rel="icon" href="favicon.ico?v=3">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=3">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=3">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@graph":[
+        {
+          "@type":"WebSite",
+          "name":"Vitalijs Ivanovs Praktikum",
+          "url":"",
+          "inLanguage":["de","en"],
+          "potentialAction":{"@type":"SearchAction","target":"","query-input":"required name=search_term"}
+        },
+        {
+          "@type":"Person",
+          "name":"Vitalijs Ivanovs",
+          "email":"mailto:mr.vetaleg@gmail.com",
+          "url":"",
+          "sameAs":["https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/"]
+        }
+      ]
+    }
+  </script>
 </head>
 <body data-lang="de">
 <header class="topbar" role="banner">
@@ -214,23 +238,34 @@
   <h2 id="contact-heading" class="de-only">Kontakt</h2>
   <h2 class="en-only">Contact</h2>
 
-  <form id="contactForm" class="contact-form" novalidate>
-    <div class="field">
-      <label for="cf-name" class="de-only">Name</label>
-      <label for="cf-name" class="en-only">Name</label>
-      <input id="cf-name" name="name" type="text" inputmode="text" autocomplete="name" required placeholder="Name">
+  <form action="https://formspree.io/f/mandzzal" method="POST" class="contact-form" novalidate>
+    <div class="form-grid">
+      <div class="field">
+        <label for="cf-name" class="de-only">Name</label>
+        <label for="cf-name" class="en-only">Name</label>
+        <input id="cf-name" name="name" type="text" inputmode="text" autocomplete="name" required placeholder="Vor- und Nachname" aria-describedby="hint-name-de hint-name-en">
+        <p id="hint-name-de" class="hint de-only">Vor- und Nachname.</p>
+        <p id="hint-name-en" class="hint en-only">First and last name.</p>
+      </div>
+      <div class="field">
+        <label for="cf-email" class="de-only">E-Mail</label>
+        <label for="cf-email" class="en-only">Email</label>
+        <input id="cf-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="name@firma.de" aria-describedby="hint-mail-de hint-mail-en">
+        <p id="hint-mail-de" class="hint de-only">Beispiel: name@firma.de</p>
+        <p id="hint-mail-en" class="hint en-only">Example: name@company.com</p>
+      </div>
     </div>
-    <div class="field">
-      <label for="cf-email" class="de-only">E-Mail</label>
-      <label for="cf-email" class="en-only">Email</label>
-      <input id="cf-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="email@example.com">
-    </div>
+
     <div class="field">
       <label for="cf-message" class="de-only">Nachricht</label>
       <label for="cf-message" class="en-only">Message</label>
-      <textarea id="cf-message" name="message" rows="6" required placeholder="Ihre Nachricht..."></textarea>
+      <textarea id="cf-message" name="message" rows="7" required placeholder="Ihre Nachricht..." aria-describedby="hint-msg-de hint-msg-en"></textarea>
+      <p id="hint-msg-de" class="hint de-only">Mindestens 10 Zeichen</p>
+      <p id="hint-msg-en" class="hint en-only">At least 10 characters</p>
     </div>
+
     <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" class="hp">
+
     <div class="field check">
       <label class="checklab">
         <input id="cf-consent" name="consent" type="checkbox" required>
@@ -238,19 +273,29 @@
         <span class="en-only">I agree to the processing of my data for contacting me.</span>
       </label>
     </div>
+
     <div class="actions">
       <button type="submit" class="btn" id="cf-submit">Senden</button>
-      <button type="button" class="btn ghost" id="cf-reset">Reset</button>
+      <button type="reset" class="btn ghost" id="cf-reset">Reset</button>
     </div>
-    <p class="status" id="cf-status" role="status" aria-live="polite"></p>
   </form>
 
-  <p><span class="de-only">E-Mail:</span><span class="en-only">Email:</span> <a id="mailto-link" href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a> <button id="copy-email" class="btn ghost" type="button" aria-label="E-Mail kopieren">Kopieren</button></p>
-  <p><span class="de-only">Standort:</span><span class="en-only">Location:</span> Mastershausen – Koblenz, DE</p>
+  <div class="email-row">
+    <span class="de-only">E-Mail:</span><span class="en-only">Email:</span>
+    <div class="email-wrap">
+      <a id="mailto-link" href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a>
+      <button id="copy-email" class="btn ghost small" type="button" aria-describedby="copy-tip">Kopieren</button>
+      <span id="copy-tip" role="tooltip" class="tooltip">In die Zwischenablage</span>
+    </div>
+  </div>
+
+  <p class="place"><span class="de-only">Standort:</span><span class="en-only">Location:</span> Mastershausen – Koblenz, DE</p>
+
   <div class="contact-actions">
     <a id="contact-linkedin-btn" class="btn ghost de-only" href="https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/" target="_blank" rel="noopener">LinkedIn öffnen</a>
     <a id="contact-linkedin-btn-en" class="btn ghost en-only" href="https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/" target="_blank" rel="noopener">Open LinkedIn</a>
   </div>
+
   <p class="tiny">© <span id="year"></span> · <span class="de-only">Alle Rechte vorbehalten.</span><span class="en-only">All rights reserved.</span></p>
   <div class="qr-box">
     <p class="de-only">📱 Scanne den QR-Code für schnellen Zugriff:</p>
@@ -263,7 +308,6 @@
   <div class="modal-content" role="dialog" aria-modal="true" aria-label="Preview">
     <button class="close" type="button" aria-label="Close" title="Close">&times;</button>
     <iframe id="pdfFrame" src="" title="Dokument" loading="lazy"></iframe>
-    <div class="modal-status" id="pdfStatus" aria-live="polite"></div>
   </div>
 </div>
 
@@ -271,6 +315,8 @@
   <a class="qf-docs" href="#docs">📄 Unterlagen</a>
   <a class="qf-contact" href="#contact">📧 Kontakt</a>
 </div>
+
+<button id="backToTop" aria-label="Nach oben">↑</button>
 
 <script src="script.js"></script>
 </body>
