@@ -90,10 +90,10 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .proj{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px}
 
-.contact-form{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px;max-width:760px;margin:18px auto}
+.contact-form{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px;max-width:680px;margin:18px auto;text-align:left}
 .contact-form .field{display:flex;flex-direction:column;margin-bottom:12px}
-.contact-form label{font-weight:700;margin-bottom:6px}
-.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 25%,transparent);border-radius:10px;padding:10px 12px;font-size:16px}
+.contact-form label{font-weight:700;margin-bottom:6px;text-align:left}
+.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 25%,transparent);border-radius:10px;padding:10px 12px;font-size:16px;width:100%}
 .contact-form textarea{resize:vertical;min-height:140px}
 .contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
 .contact-form .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
@@ -101,7 +101,7 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .checklab{display:flex;gap:8px;align-items:flex-start}
 .checklab input{transform:translateY(2px)}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;justify-content:center}
-.actions .btn{min-width:200px}
+.actions .btn{min-width:220px}
 .status{margin-top:10px;font-weight:800}
 .status.ok{color:#27c93f}
 .status.err{color:#ff453a}
@@ -138,6 +138,7 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
   .hero{min-height:40vh;padding-top:86px;gap:4px}
   .brand{font-size:clamp(36px,10.8vw,72px)}
   .subtitle{max-width:92vw}
+  .contact-form{max-width:92vw}
 }
 @media (orientation:landscape) and (max-width:920px){
   .hero{min-height:38vh;padding-top:76px;gap:4px}
