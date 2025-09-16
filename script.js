@@ -146,8 +146,8 @@ mql.addEventListener?.("change",()=>{if(currentTheme==="auto")setHtmlTheme("auto
 const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 const I18N={
-  de:{title:"Vitalijs Ivanovs · Praktikum 2026",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",heroCta:"Unterlagen ansehen",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal",form:{name:"Name",email:"E-Mail",message:"Nachricht",consent:"Ich stimme der Verarbeitung meiner Angaben zur Kontaktaufnahme zu.",send:"Senden",reset:"Zurücksetzen",ok:"Danke, die Nachricht wurde gesendet.",err:"Fehler beim Senden. Bitte versuchen Sie es später erneut.",invalid:"Bitte füllen Sie alle Felder korrekt aus."},meta:{desc:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung ab April 2026. Lebenslauf, Anschreiben, Projekte, Zertifikate.",ogtitle:"Vitalijs Ivanovs · Praktikum 2026",ogdesc:"Lebenslauf, Anschreiben, Projekte, Zertifikate."}},
-  en:{title:"Vitalijs Ivanovs · Internship 2026",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page",form:{name:"Name",email:"Email",message:"Message",consent:"I agree to the processing of my data for contacting me.",send:"Send",reset:"Reset",ok:"Thanks, your message has been sent.",err:"Sending failed. Please try again later.",invalid:"Please fill in all fields correctly."},meta:{desc:"Mandatory internship in application development starting April 2026. CV, cover letter, projects, certificates.",ogtitle:"Vitalijs Ivanovs · Internship 2026",ogdesc:"CV, cover letter, projects, certificates."}}
+  de:{title:"Vitalijs Ivanovs · Praktikum 2026",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung (IHK)",heroCta:"Unterlagen ansehen",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal",copy_btn:"Kopieren",copied:"Kopiert",form:{name:"Name",email:"E-Mail",message:"Nachricht",consent:"Ich stimme der Verarbeitung meiner Angaben zur Kontaktaufnahme zu.",send:"Senden",reset:"Zurücksetzen",ok:"Danke, die Nachricht wurde gesendet.",err:"Fehler beim Senden. Bitte versuchen Sie es später erneut.",invalid:"Bitte füllen Sie alle Felder korrekt aus."},meta:{desc:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung ab April 2026. Lebenslauf, Anschreiben, Projekte, Zertifikate.",ogtitle:"Vitalijs Ivanovs · Praktikum 2026",ogdesc:"Lebenslauf, Anschreiben, Projekte, Zertifikate."}},
+  en:{title:"Vitalijs Ivanovs · Internship 2026",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development (IHK)",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page",copy_btn:"Copy",copied:"Copied",form:{name:"Name",email:"Email",message:"Message",consent:"I agree to the processing of my data for contacting me.",send:"Send",reset:"Reset",ok:"Thanks, your message has been sent.",err:"Sending failed. Please try again later.",invalid:"Please fill in all fields correctly."},meta:{desc:"Mandatory internship in application development starting April 2026. CV, cover letter, projects, certificates.",ogtitle:"Vitalijs Ivanovs · Internship 2026",ogdesc:"CV, cover letter, projects, certificates."}}
 };
 
 function getLangFromUrl(){const m=(location.search.match(/[?&]lang=(de|en)\b/i)||[])[1];return m?m.toLowerCase():null}
@@ -189,6 +189,8 @@ function applyTranslations(lang){
   const qfContact=document.querySelector(".qf-contact");if(qfContact)qfContact.textContent=t.qf_contact;
   const modalClose=document.querySelector(".close");if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close)}
   const qrImg=document.getElementById("qr-img");if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href)}
+  const copyBtn=document.getElementById("copy-email");if(copyBtn)copyBtn.textContent=t.copy_btn;
+  const tool=document.querySelector(".email-wrap .tooltip");if(tool)tool.textContent=t.copied;
   setMetaByLang(lang)
 }
 
@@ -242,7 +244,14 @@ const copyBtn=document.getElementById("copy-email");
 copyBtn?.addEventListener("click",async()=>{
   const a=document.getElementById("mailto-link");
   const email=a?.textContent?.trim()||"";
-  try{await navigator.clipboard.writeText(email);copyBtn.classList.add("copied");setTimeout(()=>{copyBtn.classList.remove("copied")},1200)}catch(_){}
+  const lang=document.documentElement.getAttribute("lang")||"de";
+  try{
+    await navigator.clipboard.writeText(email);
+    const prev=copyBtn.textContent;
+    copyBtn.textContent=I18N[lang].copied;
+    copyBtn.classList.add("copied");
+    setTimeout(()=>{copyBtn.classList.remove("copied");copyBtn.textContent=I18N[lang].copy_btn},1200);
+  }catch(_){}
 });
 
 const inputs=document.querySelectorAll('input,textarea,select');
