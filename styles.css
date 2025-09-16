@@ -120,6 +120,8 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .quick-footer a{color:var(--fg);text-decoration:none;font-weight:800;font-size:1.05rem}
 .quick-footer a:hover{color:var(--accent)}
 @media (max-width:768px){.quick-footer{display:flex}}
+#backToTop{position:fixed;right:16px;bottom:78px;z-index:1100;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:10px 12px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#backToTop.show{opacity:1;visibility:visible;transform:translateY(0)}
 @media (max-width:720px){
   .hero{padding-top:86px;row-gap:8px}
   .brand{font-size:clamp(36px,10.8vw,72px)}

@@ -173,11 +173,13 @@ function setUrlLang(lang){
   u.searchParams.set("lang",lang);
   history.replaceState({}, "", u.toString());
 }
+
 function setBrandWord(word){
   const brand=document.querySelector(".brand");
   if(!brand)return;
   brand.innerHTML=word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("");
 }
+
 function setMetaByLang(lang){
   const t=I18N[lang];
   const titleEl=document.querySelector("title");
@@ -193,6 +195,7 @@ function setMetaByLang(lang){
   if(twt) twt.setAttribute("content",t.meta.ogtitle);
   if(twd) twd.setAttribute("content",t.meta.ogdesc);
 }
+
 function applyTranslations(lang){
   const t=I18N[lang]||I18N[DEFAULT_LANG];
   document.documentElement.setAttribute("lang",lang);
@@ -215,12 +218,14 @@ function applyTranslations(lang){
   const qrImg=document.getElementById("qr-img"); if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href);}
   setMetaByLang(lang);
 }
+
 function setLanguage(lang){
   if(!I18N[lang])lang=DEFAULT_LANG;
   localStorage.setItem(LS_LANG,lang);
   setUrlLang(lang);
   applyTranslations(lang);
 }
+
 document.querySelectorAll(".lang-btn").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.lang||"de")));
 applyTranslations(getLang());
 setUrlLang(document.documentElement.getAttribute("lang")||"de");
@@ -281,7 +286,13 @@ copyBtn?.addEventListener("click",async()=>{
   const email=a?.textContent?.trim()||"";
   try{
     await navigator.clipboard.writeText(email);
-    copyBtn.textContent=document.documentElement.getAttribute("lang")==="de"?"Kopiert":"Copied";
-    setTimeout(()=>{copyBtn.textContent=document.documentElement.getAttribute("lang")==="de"?"Kopieren":"Copy"},1200);
+    copyBtn.classList.add("copied");
+    setTimeout(()=>{copyBtn.classList.remove("copied")},1200);
   }catch(_){}
 });
+
+const backBtn=document.getElementById("backToTop");
+if(backBtn){
+  window.addEventListener("scroll",()=>{const y=window.scrollY||window.pageYOffset; if(y>800){backBtn.classList.add("show")}else{backBtn.classList.remove("show")}},{passive:true});
+  backBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+}
