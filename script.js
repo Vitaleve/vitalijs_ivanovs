@@ -103,8 +103,8 @@ themeSegs.forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme))
 const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 const I18N={
-  de:{title:"Vitalijs Ivanovs Praktikum",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",heroCta:"Unterlagen ansehen",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal"},
-  en:{title:"Vitalijs Ivanovs Praktikum",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page"}
+  de:{title:"Vitalijs Ivanovs Praktikum",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung",heroCta:"Unterlagen ansehen",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal",form:{name:"Name",email:"E-Mail",message:"Nachricht",consent:"Ich stimme der Verarbeitung meiner Angaben zur Kontaktaufnahme zu.",send:"Senden",reset:"Zurücksetzen",ok:"Danke, die Nachricht wurde gesendet.",err:"Fehler beim Senden. Bitte versuchen Sie es später erneut.",invalid:"Bitte füllen Sie alle Felder korrekt aus."}},
+  en:{title:"Vitalijs Ivanovs Praktikum",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page",form:{name:"Name",email:"Email",message:"Message",consent:"I agree to the processing of my data for contacting me.",send:"Send",reset:"Reset",ok:"Thanks, your message has been sent.",err:"Sending failed. Please try again later.",invalid:"Please fill in all fields correctly."}}
 };
 
 function getLang(){
@@ -135,6 +135,24 @@ function applyTranslations(lang){
   const qfContact=document.querySelector(".qf-contact"); if(qfContact)qfContact.textContent=t.qf_contact;
   const modalClose=document.querySelector(".close"); if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close);}
   const qrImg=document.getElementById("qr-img"); if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href);}
+  const nf=document.getElementById("contactForm");
+  if(nf){
+    nf.querySelector('label[for="cf-name"].de-only')?.replaceChildren(document.createTextNode(I18N.de.form.name));
+    nf.querySelector('label[for="cf-name"].en-only')?.replaceChildren(document.createTextNode(I18N.en.form.name));
+    nf.querySelector('label[for="cf-email"].de-only')?.replaceChildren(document.createTextNode(I18N.de.form.email));
+    nf.querySelector('label[for="cf-email"].en-only')?.replaceChildren(document.createTextNode(I18N.en.form.email));
+    nf.querySelector('label[for="cf-message"].de-only')?.replaceChildren(document.createTextNode(I18N.de.form.message));
+    nf.querySelector('label[for="cf-message"].en-only')?.replaceChildren(document.createTextNode(I18N.en.form.message));
+    nf.querySelector("#cf-name")?.setAttribute("placeholder",lang==="de"?"Name":"Name");
+    nf.querySelector("#cf-email")?.setAttribute("placeholder",lang==="de"?"email@example.com":"email@example.com");
+    nf.querySelector("#cf-message")?.setAttribute("placeholder",lang==="de"?"Ihre Nachricht...":"Your message...");
+    const consentSpan= nf.querySelector(".checklab span."+ (lang==="de"?"de-only":"en-only"));
+    const otherSpan= nf.querySelector(".checklab span."+ (lang==="de"?"en-only":"de-only"));
+    if(consentSpan) consentSpan.style.display="inline";
+    if(otherSpan) otherSpan.style.display="none";
+    nf.querySelector("#cf-submit")?.replaceChildren(document.createTextNode(t.form.send));
+    nf.querySelector("#cf-reset")?.replaceChildren(document.createTextNode(lang==="de"?I18N.de.form.reset:I18N.en.form.reset));
+  }
 }
 
 function setLanguage(lang){
@@ -158,3 +176,40 @@ const io=new IntersectionObserver(entries=>{
   });
 },{root:null,rootMargin:"-40% 0px -55% 0px",threshold:[0,0.25,0.5,0.75,1]});
 sections.forEach(sec=>io.observe(sec));
+
+const FORM_ENDPOINT="https://formspree.io/f/mandzzal";
+const cf=document.getElementById("contactForm");
+const cfStatus=document.getElementById("cf-status");
+const cfReset=document.getElementById("cf-reset");
+function setStatus(msg,ok){
+  if(!cfStatus)return;
+  cfStatus.textContent=msg;
+  cfStatus.classList.remove("ok","err");
+  if(msg) cfStatus.classList.add(ok?"ok":"err");
+}
+function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+async function sendForm(data){
+  const res=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});
+  if(!res.ok)throw new Error("bad");
+  return true;
+}
+cf?.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const lang=getLang();
+  const name=document.getElementById("cf-name")?.value.trim()||"";
+  const email=document.getElementById("cf-email")?.value.trim()||"";
+  const message=document.getElementById("cf-message")?.value.trim()||"";
+  const hp=document.getElementById("cf-website")?.value.trim()||"";
+  const consent=document.getElementById("cf-consent")?.checked||false;
+  if(hp){return}
+  if(!name||!validateEmail(email)||!message||!consent){setStatus(I18N[lang].form.invalid,false);return}
+  const payload={name,email,message,lang,ts:new Date().toISOString()};
+  try{
+    await sendForm(payload);
+    setStatus(I18N[lang].form.ok,true);
+    cf.reset();
+  }catch(err){
+    setStatus(I18N[lang].form.err,false);
+  }
+});
+cfReset?.addEventListener("click",()=>{cf?.reset();setStatus("",true)});

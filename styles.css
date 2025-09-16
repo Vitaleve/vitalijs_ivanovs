@@ -94,6 +94,21 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.6);border-color:
 .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .proj{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px}
 
+.contact-form{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px;max-width:760px;margin:18px auto}
+.contact-form .field{display:flex;flex-direction:column;margin-bottom:12px}
+.contact-form label{font-weight:600;margin-bottom:6px}
+.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea{background:transparent;color:var(--fg);border:1px solid color-mix(in oklab,var(--fg) 20%,transparent);border-radius:10px;padding:10px 12px;outline:none}
+.contact-form textarea{resize:vertical;min-height:140px}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--accent)}
+.contact-form .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+.contact-form .check{margin-top:4px}
+.checklab{display:flex;gap:8px;align-items:flex-start}
+.checklab input{transform:translateY(2px)}
+.contact-form .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.contact-form .status{margin-top:10px;font-weight:600}
+.contact-form .status.ok{color:#27c93f}
+.contact-form .status.err{color:#ff453a}
+
 .footer{padding:50px 24px 120px;text-align:center;border-top:1px solid color-mix(in oklab,var(--fg) 10%,transparent)}
 .footer a[href^="mailto:"]{color:green;font-weight:600}
 .tiny{color:var(--muted);font-size:.9rem}

@@ -193,31 +193,46 @@
       </article>
     </div>
   </section>
-
-  <section id="projects" class="section" role="region" aria-labelledby="projects-heading">
-    <h2 id="projects-heading" class="de-only">Ausgewählte Projekte</h2>
-    <h2 class="en-only">Selected projects</h2>
-    <div class="projects">
-      <article class="proj">
-        <h3>Travel World UI</h3>
-        <p>Interaktives Hero mit Hover-Reveal, Collage-Layout und flüssiger Motion.</p>
-      </article>
-      <article class="proj">
-        <h3>API · FastAPI</h3>
-        <p>Service-Design, Endpunkte, Fehlerbehandlung und einfache Authentifizierung.</p>
-      </article>
-    </div>
-  </section>
 </main>
 
 <footer id="contact" class="footer" role="contentinfo" aria-labelledby="contact-heading">
   <h2 id="contact-heading" class="de-only">Kontakt</h2>
   <h2 class="en-only">Contact</h2>
+
+  <form id="contactForm" class="contact-form" novalidate>
+    <div class="field">
+      <label for="cf-name" class="de-only">Name</label>
+      <label for="cf-name" class="en-only">Name</label>
+      <input id="cf-name" name="name" type="text" inputmode="text" autocomplete="name" required placeholder="Name">
+    </div>
+    <div class="field">
+      <label for="cf-email" class="de-only">E-Mail</label>
+      <label for="cf-email" class="en-only">Email</label>
+      <input id="cf-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="email@example.com">
+    </div>
+    <div class="field">
+      <label for="cf-message" class="de-only">Nachricht</label>
+      <label for="cf-message" class="en-only">Message</label>
+      <textarea id="cf-message" name="message" rows="6" required placeholder="Ihre Nachricht..."></textarea>
+    </div>
+    <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" class="hp">
+    <div class="field check">
+      <label class="checklab">
+        <input id="cf-consent" name="consent" type="checkbox" required>
+        <span class="de-only">Ich stimme der Verarbeitung meiner Angaben zur Kontaktaufnahme zu.</span>
+        <span class="en-only">I agree to the processing of my data for contacting me.</span>
+      </label>
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn" id="cf-submit">Senden</button>
+      <button type="button" class="btn ghost" id="cf-reset">Reset</button>
+    </div>
+    <p class="status" id="cf-status" role="status" aria-live="polite"></p>
+  </form>
+
   <p><span class="de-only">E-Mail:</span><span class="en-only">Email:</span> <a href="mailto:mr.vetaleg@gmail.com">mr.vetaleg@gmail.com</a></p>
   <p><span class="de-only">Standort:</span><span class="en-only">Location:</span> Mastershausen – Koblenz, DE</p>
   <div class="contact-actions">
-    <a id="contact-email-btn" class="btn de-only" href="mailto:mr.vetaleg@gmail.com?subject=Praktikum%20/%20Internship">E-Mail senden</a>
-    <a id="contact-email-btn-en" class="btn en-only" href="mailto:mr.vetaleg@gmail.com?subject=Internship%20application">Send email</a>
     <a id="contact-linkedin-btn" class="btn ghost de-only" href="https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/" target="_blank" rel="noopener">LinkedIn öffnen</a>
     <a id="contact-linkedin-btn-en" class="btn ghost en-only" href="https://www.linkedin.com/in/vitalijs-ivanovs-32007b336/" target="_blank" rel="noopener">Open LinkedIn</a>
   </div>
