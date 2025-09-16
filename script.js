@@ -150,28 +150,13 @@ const I18N={
   en:{title:"Vitalijs Ivanovs · Internship 2026",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development",heroCta:"View documents",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page",form:{name:"Name",email:"Email",message:"Message",consent:"I agree to the processing of my data for contacting me.",send:"Send",reset:"Reset",ok:"Thanks, your message has been sent.",err:"Sending failed. Please try again later.",invalid:"Please fill in all fields correctly."},meta:{desc:"Mandatory internship in application development starting April 2026. CV, cover letter, projects, certificates.",ogtitle:"Vitalijs Ivanovs · Internship 2026",ogdesc:"CV, cover letter, projects, certificates."}}
 };
 
-function getLangFromUrl(){
-  const m=(location.search.match(/[?&]lang=(de|en)\b/i)||[])[1];
-  return m?m.toLowerCase():null;
-}
-function getLang(){
-  const fromUrl=getLangFromUrl();
-  if(fromUrl&&I18N[fromUrl]) return fromUrl;
-  const saved=localStorage.getItem(LS_LANG);
-  if(saved&&I18N[saved])return saved;
-  const b=(navigator.language||"").slice(0,2).toLowerCase();
-  return I18N[b]?b:DEFAULT_LANG;
-}
-function setUrlLang(lang){
-  const u=new URL(location.href);
-  u.searchParams.set("lang",lang);
-  history.replaceState({}, "", u.toString());
-}
+function getLangFromUrl(){const m=(location.search.match(/[?&]lang=(de|en)\b/i)||[])[1];return m?m.toLowerCase():null}
+function getLang(){const u=getLangFromUrl();if(u&&I18N[u])return u;const s=localStorage.getItem(LS_LANG);if(s&&I18N[s])return s;const b=(navigator.language||"").slice(0,2).toLowerCase();return I18N[b]?b:DEFAULT_LANG}
+function setUrlLang(lang){const u=new URL(location.href);u.searchParams.set("lang",lang);history.replaceState({}, "", u.toString())}
 
 function setBrandWord(word){
-  const brand=document.querySelector(".brand");
-  if(!brand)return;
-  brand.innerHTML=word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("");
+  const brand=document.querySelector(".brand");if(!brand)return;
+  brand.innerHTML=word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("")
 }
 
 function setMetaByLang(lang){
@@ -196,28 +181,22 @@ function applyTranslations(lang){
   document.body.setAttribute("data-lang",lang);
   document.querySelectorAll(".lang-btn").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)));
   const navLinks=document.querySelectorAll(".nav a");
-  if(navLinks.length>=5){
-    navLinks[0].textContent=t.nav[0];
-    navLinks[1].textContent=t.nav[1];
-    navLinks[2].textContent=t.nav[2];
-    navLinks[3].textContent=t.nav[3];
-    navLinks[4].textContent=t.nav[4];
-  }
-  const subtitle=document.querySelector(".subtitle"); if(subtitle)subtitle.textContent=t.heroSubtitle;
-  const cta=document.querySelector(".cta"); if(cta)cta.textContent=t.heroCta;
+  if(navLinks.length>=5){navLinks[0].textContent=t.nav[0];navLinks[1].textContent=t.nav[1];navLinks[2].textContent=t.nav[2];navLinks[3].textContent=t.nav[3];navLinks[4].textContent=t.nav[4]}
+  const subtitle=document.querySelector(".subtitle");if(subtitle)subtitle.textContent=t.heroSubtitle;
+  const cta=document.querySelector(".cta");if(cta)cta.textContent=t.heroCta;
   setBrandWord(t.heroWord);
-  const qfDocs=document.querySelector(".qf-docs"); if(qfDocs)qfDocs.textContent=t.qf_docs;
-  const qfContact=document.querySelector(".qf-contact"); if(qfContact)qfContact.textContent=t.qf_contact;
-  const modalClose=document.querySelector(".close"); if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close);}
-  const qrImg=document.getElementById("qr-img"); if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href);}
-  setMetaByLang(lang);
+  const qfDocs=document.querySelector(".qf-docs");if(qfDocs)qfDocs.textContent=t.qf_docs;
+  const qfContact=document.querySelector(".qf-contact");if(qfContact)qfContact.textContent=t.qf_contact;
+  const modalClose=document.querySelector(".close");if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close)}
+  const qrImg=document.getElementById("qr-img");if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href)}
+  setMetaByLang(lang)
 }
 
 function setLanguage(lang){
   if(!I18N[lang])lang=DEFAULT_LANG;
   localStorage.setItem(LS_LANG,lang);
   setUrlLang(lang);
-  applyTranslations(lang);
+  applyTranslations(lang)
 }
 
 document.querySelectorAll(".lang-btn").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.lang||"de")));
@@ -226,14 +205,14 @@ setUrlLang(document.documentElement.getAttribute("lang")||"de");
 
 const sections=[...document.querySelectorAll("main section"),document.getElementById("contact")].filter(Boolean);
 const linkMap=new Map();
-document.querySelectorAll(".nav a").forEach(a=>{const id=a.getAttribute("href").replace("#","");linkMap.set(id,a);});
+document.querySelectorAll(".nav a").forEach(a=>{const id=a.getAttribute("href").replace("#","");linkMap.set(id,a)});
 const io=new IntersectionObserver(entries=>{
   entries.forEach(ent=>{
     const id=ent.target.getAttribute("id");
     const link=linkMap.get(id);
     if(!link)return;
-    if(ent.isIntersecting){document.querySelectorAll(".nav a").forEach(x=>x.classList.remove("active"));link.classList.add("active");}
-  });
+    if(ent.isIntersecting){document.querySelectorAll(".nav a").forEach(x=>x.classList.remove("active"));link.classList.add("active")}
+  })
 },{root:null,rootMargin:"-40% 0px -55% 0px",threshold:[0,0.25,0.5,0.75,1]});
 sections.forEach(sec=>io.observe(sec));
 
@@ -241,18 +220,9 @@ const FORM_ENDPOINT="https://formspree.io/f/mandzzal";
 const cf=document.getElementById("contactForm");
 const cfStatus=document.getElementById("cf-status");
 const cfReset=document.getElementById("cf-reset");
-function setStatus(msg,ok){
-  if(!cfStatus)return;
-  cfStatus.textContent=msg;
-  cfStatus.classList.remove("ok","err");
-  if(msg) cfStatus.classList.add(ok?"ok":"err");
-}
-function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
-async function sendForm(data){
-  const res=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});
-  if(!res.ok)throw new Error("bad");
-  return true;
-}
+function setStatus(msg,ok){if(!cfStatus)return;cfStatus.textContent=msg;cfStatus.classList.remove("ok","err");if(msg)cfStatus.classList.add(ok?"ok":"err")}
+function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+async function sendForm(data){const res=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});if(!res.ok)throw new Error("bad");return true}
 cf?.addEventListener("submit",async e=>{
   e.preventDefault();
   const lang=document.documentElement.getAttribute("lang")||"de";
@@ -264,13 +234,7 @@ cf?.addEventListener("submit",async e=>{
   if(hp){return}
   if(!name||!validateEmail(email)||!message||!consent){setStatus(I18N[lang].form.invalid,false);return}
   const payload={name,email,message,lang,ts:new Date().toISOString()};
-  try{
-    await sendForm(payload);
-    setStatus(I18N[lang].form.ok,true);
-    cf.reset();
-  }catch(err){
-    setStatus(I18N[lang].form.err,false);
-  }
+  try{await sendForm(payload);setStatus(I18N[lang].form.ok,true);cf.reset()}catch(err){setStatus(I18N[lang].form.err,false)}
 });
 cfReset?.addEventListener("click",()=>{cf?.reset();setStatus("",true)});
 
@@ -278,11 +242,7 @@ const copyBtn=document.getElementById("copy-email");
 copyBtn?.addEventListener("click",async()=>{
   const a=document.getElementById("mailto-link");
   const email=a?.textContent?.trim()||"";
-  try{
-    await navigator.clipboard.writeText(email);
-    copyBtn.classList.add("copied");
-    setTimeout(()=>{copyBtn.classList.remove("copied")},1200);
-  }catch(_){}
+  try{await navigator.clipboard.writeText(email);copyBtn.classList.add("copied");setTimeout(()=>{copyBtn.classList.remove("copied")},1200)}catch(_){}
 });
 
 const inputs=document.querySelectorAll('input,textarea,select');
@@ -291,6 +251,6 @@ inputs.forEach(i=>i.addEventListener('blur',()=>{document.documentElement.classL
 
 const backBtn=document.getElementById("backToTop");
 if(backBtn){
-  window.addEventListener("scroll",()=>{const y=window.scrollY||window.pageYOffset; if(y>800){backBtn.classList.add("show")}else{backBtn.classList.remove("show")}},{passive:true});
-  backBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+  window.addEventListener("scroll",()=>{const y=window.scrollY||window.pageYOffset;if(y>800){backBtn.classList.add("show")}else{backBtn.classList.remove("show")}} ,{passive:true});
+  backBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}))
 }
