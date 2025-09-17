@@ -73,18 +73,23 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .timeline article{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:22px;border-radius:14px;margin:18px 0}
 .timeline article p{line-height:1.72}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
-.card{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:18px;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;height:100%}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;align-items:stretch}
+.card{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:16px 18px 14px;border-radius:14px;display:flex;flex-direction:column;overflow:visible;min-height:180px;height:100%;transition:transform .2s ease,box-shadow .2s ease}
 .card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.3)}
-.card h3{margin:0 0 10px}
-.card p{margin:0 0 16px;color:var(--muted)}
-.card-actions,.doc-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:auto}
-.doc-actions .btn,.card-actions .btn{width:100%}
-@media (max-width:420px){.doc-actions,.card-actions{grid-template-columns:1fr}}
-
-#docs .card{min-height:220px}
-@media (max-width:1024px){#docs .card{min-height:210px}}
-@media (max-width:720px){#docs .card{min-height:auto}}
+.card h3{margin:0 0 8px}
+.card p{margin:0 0 12px;color:var(--muted);overflow:visible;white-space:normal;text-overflow:clip}
+.card-actions{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap}
+.card-actions .btn{flex:0 0 180px}
+.card-actions .btn.ghost{flex:0 0 140px}
+.doc-actions{display:flex;gap:12px;flex-wrap:wrap}
+.doc-actions .btn{flex:0 0 180px}
+.doc-actions .btn.ghost{flex:0 0 140px}
+@media (max-width:480px){
+  .card-actions .btn{flex:1 1 48%}
+  .card-actions .btn.ghost{flex:1 1 48%}
+  .doc-actions .btn{flex:1 1 48%}
+  .doc-actions .btn.ghost{flex:1 1 48%}
+}
 
 .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .proj{background:var(--card);border:1px solid color-mix(in oklab,var(--fg) 10%,transparent);padding:20px;border-radius:14px}
@@ -105,8 +110,8 @@ html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color
 .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
 
 .checklab{display:flex;gap:10px;align-items:center;margin:22px 0 16px}
-.check{appearance:auto;width:18px;height:18px;min-width:18px;accent-color:var(--accent);margin:0;display:block}
-.checklab label{line-height:1.2}
+.check{appearance:auto;width:18px;height:18px;min-width:18px;accent-color:var(--accent);margin:0;display:flex;align-items:center;justify-content:center}
+.checklab span{line-height:1.2}
 
 .actions{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
 .actions .btn{flex:0 0 200px}
