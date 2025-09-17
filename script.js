@@ -10,13 +10,13 @@ const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYea
 
 const menuBtn=document.querySelector(".menu-toggle");
 const nav=document.querySelector(".nav");
-function closeNav(){if(!nav)return;nav.style.maxHeight="0px";nav.classList.remove("active");menuBtn?.classList.remove("is-active")}
-function openNav(){if(!nav)return;nav.classList.add("active");nav.style.maxHeight=nav.scrollHeight+"px";menuBtn?.classList.add("is-active")}
 if(menuBtn&&nav){
-  menuBtn.addEventListener("click",()=>{const open=nav.classList.contains("active");if(open){closeNav()}else{openNav()}});
-  window.addEventListener("resize",()=>{if(window.innerWidth>768){nav.style.maxHeight="";nav.classList.remove("active");menuBtn.classList.remove("is-active")}else if(nav.classList.contains("active")){nav.style.maxHeight=nav.scrollHeight+"px"}});
-  document.addEventListener("click",e=>{if(window.innerWidth<=768){if(!nav.contains(e.target)&&!menuBtn.contains(e.target))closeNav()}});
-  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{if(window.innerWidth<=768)closeNav()}));
+  const open=()=>{menuBtn.classList.add("is-active");nav.classList.add("active")};
+  const close=()=>{menuBtn.classList.remove("is-active");nav.classList.remove("active")};
+  menuBtn.addEventListener("click",()=>{if(nav.classList.contains("active")){close()}else{open()}});
+  document.addEventListener("click",e=>{if(window.innerWidth<=768&&!nav.contains(e.target)&&!menuBtn.contains(e.target))close()});
+  window.addEventListener("resize",()=>{if(window.innerWidth>768)close()});
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{if(window.innerWidth<=768)close()}));
 }
 
 function openPDF(src){
