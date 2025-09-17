@@ -1,12 +1,10 @@
-history.scrollRestoration="manual";
+history.scrollRestoration="auto";
 
-window.addEventListener("pageshow",()=>{
-  if(location.hash)return;
-  const toTop=()=>window.scrollTo({top:0,left:0,behavior:"instant"});
-  requestAnimationFrame(()=>{toTop();requestAnimationFrame(toTop)});
-  setTimeout(toTop,0);
-  setTimeout(toTop,60);
-});
+const SCROLL_KEY="last_scroll_pos";
+const saveScroll=()=>{try{localStorage.setItem(SCROLL_KEY,String(window.pageYOffset||window.scrollY||0))}catch(e){}};
+window.addEventListener("beforeunload",saveScroll,{passive:true});
+window.addEventListener("pagehide",saveScroll,{passive:true});
+window.addEventListener("pageshow",()=>{if(location.hash)return;let s=0;try{s=parseInt(localStorage.getItem(SCROLL_KEY)||"0",10)||0}catch(_){ }if(s<=1){const t=()=>window.scrollTo(0,0);requestAnimationFrame(()=>{t();requestAnimationFrame(t)});setTimeout(t,0);setTimeout(t,60)}});
 
 const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();
 
@@ -23,13 +21,11 @@ if(menuBtn&&nav){
 function openPDF(src){
   const modal=document.getElementById("pdfModal");
   const frame=document.getElementById("pdfFrame");
-  const status=document.getElementById("pdfStatus");
   if(!modal||!frame)return;
   const withZoom=src+(src.includes("#")?"&":"#")+"zoom=page-width";
   document.body.classList.add("modal-open");
   frame.src=withZoom;
   modal.style.display="flex";
-  if(status){status.textContent="";updatePdfStatus(src,status)}
 }
 function closePDF(){
   const modal=document.getElementById("pdfModal");
@@ -44,32 +40,12 @@ document.querySelectorAll("[data-view]").forEach(btn=>{
     e.preventDefault();
     const src=btn.getAttribute("data-view");
     addStat(btn.getAttribute("data-stats-key")||"view");
-    if(window.plausible) plausible("View",{props:{file:src}});
     openPDF(src);
   });
 });
 document.querySelector(".close")?.addEventListener("click",closePDF);
 document.getElementById("pdfModal")?.addEventListener("click",e=>{if(!e.target.closest(".modal-content"))closePDF()});
 document.querySelector(".modal-content")?.addEventListener("click",e=>e.stopPropagation());
-
-async function updatePdfStatus(url,el){
-  try{
-    const res=await fetch(url,{method:"HEAD"});
-    const size=Number(res.headers.get("content-length")||0);
-    const name=url.split("/").pop()||"Document";
-    const human=size?humanSize(size):"";
-    el.textContent=`${name} · ${human} · PDF`.trim();
-  }catch(_){
-    const name=url.split("/").pop()||"Document";
-    el.textContent=name+" · PDF";
-  }
-}
-function humanSize(n){
-  if(n<=0)return "";
-  const u=["B","KB","MB","GB","TB"];let i=0;let v=n;
-  while(v>=1024&&i<u.length-1){v/=1024;i++}
-  return `${v.toFixed(v>=10||i===0?0:1)} ${u[i]}`;
-}
 
 async function forceDownload(url,filename){
   try{
@@ -88,123 +64,67 @@ async function forceDownload(url,filename){
   }
 }
 document.querySelectorAll("[data-download]").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const url=btn.getAttribute("data-download");
-    const name=btn.getAttribute("data-filename")||url.split("/").pop();
-    addStat(btn.getAttribute("data-stats-key")||name);
-    if(window.plausible) plausible("Download",{props:{file:name}});
-    forceDownload(url,name);
-  });
+  btn.addEventListener("click",()=>{const url=btn.getAttribute("data-download");const name=btn.getAttribute("data-filename")||url.split("/").pop();addStat(btn.getAttribute("data-stats-key")||name);forceDownload(url,name)});
 });
 
-function addStat(key){
-  try{
-    const k="dl:"+key;
-    const cur=parseInt(localStorage.getItem(k)||"0",10);
-    localStorage.setItem(k,String(cur+1));
-  }catch(e){}
-}
+function addStat(key){try{const k="dl:"+key;const cur=parseInt(localStorage.getItem(k)||"0",10);localStorage.setItem(k,String(cur+1))}catch(e){}}
 
 const themeSegs=document.querySelectorAll(".theme-seg");
 const themeSwitch=document.querySelector(".theme-switch");
-let applyTimer=null;
-let lock=false;
-let currentTheme=localStorage.getItem("theme")||"auto";
-const THUMB_MS=280;
-const mql=window.matchMedia("(prefers-color-scheme: dark)");
-function resolvedAuto(){return mql.matches?"dark":"light"}
-function setThumb(val){
-  themeSwitch?.setAttribute("data-active",val);
-  themeSegs.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.theme===val)));
-}
-function setHtmlTheme(val){
-  let t=val==="auto"?resolvedAuto():val;
-  document.documentElement.setAttribute("data-theme",t);
-}
-function applyTheme(val,instant){
-  if(lock&&!instant)return;
-  clearTimeout(applyTimer);
-  localStorage.setItem("theme",val);
-  setThumb(val);
-  if(instant){
-    setHtmlTheme(val);
-    currentTheme=val;
-    return;
-  }
-  lock=true;
-  applyTimer=setTimeout(()=>{
-    setHtmlTheme(val);
-    currentTheme=val;
-    lock=false;
-  },THUMB_MS);
-}
-applyTheme(currentTheme,true);
-themeSegs.forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme,false)));
-mql.addEventListener?.("change",()=>{if(currentTheme==="auto")setHtmlTheme("auto")});
+let themeAnimating=false;
+function setThumb(target){themeSwitch?.setAttribute("data-active",target);themeSegs.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.theme===target)))}
+function applyThemeNow(val){if(val==="light"||val==="dark"){document.documentElement.setAttribute("data-theme",val)}else{document.documentElement.setAttribute("data-theme","auto")}localStorage.setItem("theme",val)}
+function applyThemeSmooth(target){if(themeAnimating)return;themeAnimating=true;setThumb(target);const onDone=()=>{applyThemeNow(target);themeAnimating=false;themeSwitch?.removeEventListener('transitionend',onDone)};themeSwitch?.addEventListener('transitionend',onDone)}
+const initialTheme=localStorage.getItem("theme")||"auto";applyThemeNow(initialTheme);setThumb(initialTheme);themeSegs.forEach(b=>b.addEventListener("click",()=>applyThemeSmooth(b.dataset.theme)));
 
 const LS_LANG="site_lang";
 const DEFAULT_LANG="de";
 const I18N={
-  de:{title:"Vitalijs Ivanovs · Praktikum 2026",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung (IHK)",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",qr_alt:"QR-Code zum Bewerbungsportal",copy_btn:"Kopieren",copied:"Kopiert",form:{name:"Name",email:"E-Mail",message:"Nachricht",consent:"Ich stimme der Verarbeitung meiner Angaben zur Kontaktaufnahme zu.",send:"Senden",reset:"Zurücksetzen",ok:"Danke, die Nachricht wurde gesendet.",err:"Fehler beim Senden. Bitte versuchen Sie es später erneut.",invalid:"Bitte füllen Sie alle Felder korrekt aus.",ph_name:"Vor- und Nachname.",ph_email:"name@firma.de",ph_message:"Mindestens 10 Zeichen"},meta:{desc:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung ab April 2026. Lebenslauf, Anschreiben, Projekte, Zertifikate.",ogtitle:"Vitalijs Ivanovs · Praktikum 2026",ogdesc:"Lebenslauf, Anschreiben, Projekte, Zertifikate."}},
-  en:{title:"Vitalijs Ivanovs · Internship 2026",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development (IHK)",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",qr_alt:"QR code to the application page",copy_btn:"Copy",copied:"Copied",form:{name:"Name",email:"E-mail",message:"Message",consent:"I agree to the processing of my data for contacting me.",send:"Send",reset:"Reset",ok:"Thanks, your message has been sent.",err:"Sending failed. Please try again later.",invalid:"Please fill in all fields correctly.",ph_name:"First and last name.",ph_email:"name@company.com",ph_message:"At least 10 characters"},meta:{desc:"Mandatory internship in application development starting April 2026. CV, cover letter, projects, certificates.",ogtitle:"Vitalijs Ivanovs · Internship 2026",ogdesc:"CV, cover letter, projects, certificates."}}
+  de:{title:"Vitalijs Ivanovs Praktikum",nav:["Über mich","Lebenslauf","Unterlagen","Projekte","Kontakt"],heroWord:"BEWERBUNG",heroSubtitle:"Pflichtpraktikum als Fachinformatiker für Anwendungsentwicklung (IHK)",qf_docs:"📄 Unterlagen",qf_contact:"📧 Kontakt",modal_close:"Schließen",agree:"Ich stimme zu",send:"Senden",reset:"Reset",email_send:"E-Mail senden",copy:"Kopieren",copied_tt:"Kopiert",name_ph:"Vor- und Nachname",name_hint:"Vor- und Nachname.",email_ph:"name@firma.de",email_hint:"Beispiel: name@firma.de",msg_ph:"Ihre Nachricht...",msg_hint:"Mindestens 10 Zeichen"},
+  en:{title:"Vitalijs Ivanovs Internship",nav:["About me","CV","Documents","Projects","Contact"],heroWord:"APPLICATION",heroSubtitle:"Mandatory internship as IT specialist for application development (IHK)",qf_docs:"📄 Documents",qf_contact:"📧 Contact",modal_close:"Close",agree:"I agree",send:"Send",reset:"Reset",email_send:"Send email",copy:"Copy",copied_tt:"Copied",name_ph:"First and last name",name_hint:"First and last name.",email_ph:"name@company.com",email_hint:"Example: name@company.com",msg_ph:"Your message...",msg_hint:"At least 10 characters"}
 };
 
-function getLangFromUrl(){const m=(location.search.match(/[?&]lang=(de|en)\b/i)||[])[1];return m?m.toLowerCase():null}
-function getLang(){const u=getLangFromUrl();if(u&&I18N[u])return u;const s=localStorage.getItem(LS_LANG);if(s&&I18N[s])return s;const b=(navigator.language||"").slice(0,2).toLowerCase();return I18N[b]?b:DEFAULT_LANG}
-function setUrlLang(lang){const u=new URL(location.href);u.searchParams.set("lang",lang);history.replaceState({}, "", u.toString())}
-
-function setBrandWord(word){
-  const brand=document.querySelector(".brand");if(!brand)return;
-  brand.innerHTML=word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("")
-}
-
-function setMetaByLang(lang){
-  const t=I18N[lang];
-  const titleEl=document.querySelector("title");
-  const descEl=document.querySelector('meta[name="description"]');
-  const ogt=document.querySelector('meta[property="og:title"]');
-  const ogd=document.querySelector('meta[property="og:description"]');
-  const twt=document.querySelector('meta[name="twitter:title"]');
-  const twd=document.querySelector('meta[name="twitter:description"]');
-  if(titleEl) titleEl.textContent=t.meta.ogtitle;
-  if(descEl) descEl.setAttribute("content",t.meta.desc);
-  if(ogt) ogt.setAttribute("content",t.meta.ogtitle);
-  if(ogd) ogd.setAttribute("content",t.meta.ogdesc);
-  if(twt) twt.setAttribute("content",t.meta.ogtitle);
-  if(twd) twd.setAttribute("content",t.meta.ogdesc);
-}
+function getLang(){const s=localStorage.getItem(LS_LANG);if(s&&I18N[s])return s;const b=(navigator.language||"").slice(0,2).toLowerCase();return I18N[b]?b:DEFAULT_LANG}
+function setBrandWord(word){const brand=document.querySelector(".brand");if(!brand)return;brand.innerHTML=word.toUpperCase().split("").map(ch=>`<span>${ch}</span>`).join("")}
+function setText(el,txt){if(el)el.textContent=txt}
+function setPlaceholder(el,txt){if(el)el.setAttribute("placeholder",txt)}
+function hintNextTo(input){if(!input)return null;let n=input.parentElement?.querySelector("#"+input.id+"-hint");if(n)return n;let sib=input.nextElementSibling;while(sib){if(sib.tagName==="SMALL"||sib.tagName==="P"){return sib}sib=sib.nextElementSibling}return null}
 
 function applyTranslations(lang){
   const t=I18N[lang]||I18N[DEFAULT_LANG];
+  document.title=t.title;
   document.documentElement.setAttribute("lang",lang);
   document.body.setAttribute("data-lang",lang);
   document.querySelectorAll(".lang-btn").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)));
   const navLinks=document.querySelectorAll(".nav a");
-  if(navLinks.length>=5){navLinks[0].textContent=t.nav[0];navLinks[1].textContent=t.nav[1];navLinks[2].textContent=t.nav[2];navLinks[3].textContent=t.nav[3];navLinks[4].textContent=t.nav[4]}
-  const subtitle=document.querySelector(".subtitle");if(subtitle)subtitle.textContent=t.heroSubtitle;
+  if(navLinks.length>=5){navLinks[0].textContent=t.nav[0];navLinks[1].textContent=t.nav[1];navLinks[2].textContent=t.nav[2];navLinks[3].textContent=t.nav[3];navLinks[4].textContent=t.nav[4];}
+  const subtitle=document.querySelector(".subtitle"); if(subtitle)subtitle.textContent=t.heroSubtitle;
   setBrandWord(t.heroWord);
-  const qfDocs=document.querySelector(".qf-docs");if(qfDocs)qfDocs.textContent=t.qf_docs;
-  const qfContact=document.querySelector(".qf-contact");if(qfContact)qfContact.textContent=t.qf_contact;
-  const modalClose=document.querySelector(".close");if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close)}
-  const qrImg=document.getElementById("qr-img");if(qrImg){qrImg.alt=t.qr_alt;qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data="+encodeURIComponent(location.href)}
-  const copyBtn=document.getElementById("copy-email");if(copyBtn)copyBtn.textContent=t.copy_btn;
-  const tool=document.querySelector(".email-wrap .tooltip");if(tool)tool.textContent=t.copied;
-  const nameI=document.getElementById("cf-name");if(nameI)nameI.placeholder=t.form.ph_name;
-  const emailI=document.getElementById("cf-email");if(emailI)emailI.placeholder=t.form.ph_email;
-  const msgI=document.getElementById("cf-message");if(msgI)msgI.placeholder=t.form.ph_message;
-  setMetaByLang(lang)
+  const agreeLab=document.querySelector('.checklab span'); setText(agreeLab,t.agree);
+  const sendBtn=document.getElementById('send-btn'); setText(sendBtn,t.send);
+  const resetBtn=document.getElementById('reset-btn'); setText(resetBtn,t.reset);
+  const mailBtn=document.getElementById('contact-email-btn'); setText(mailBtn,t.email_send);
+  const copyBtn=document.getElementById('copy-email'); setText(copyBtn,t.copy);
+  const tt=document.querySelector('.tooltip'); setText(tt,t.copied_tt);
+
+  const nameInput=document.getElementById('cf-name')||document.querySelector('input[name="name"]');
+  const emailInput=document.getElementById('cf-email')||document.querySelector('input[type="email"]');
+  const msgArea=document.getElementById('cf-message')||document.querySelector('textarea[name="message"], textarea');
+
+  setPlaceholder(nameInput,t.name_ph);
+  setPlaceholder(emailInput,t.email_ph);
+  setPlaceholder(msgArea,t.msg_ph);
+
+  const hName=document.getElementById('hint-name')||hintNextTo(nameInput); setText(hName,t.name_hint);
+  const hEmail=document.getElementById('hint-email')||hintNextTo(emailInput); setText(hEmail,t.email_hint);
+  const hMin=document.getElementById('hint-minlen')||hintNextTo(msgArea); if(hMin){hMin.textContent=t.msg_hint}
+
+  const modalClose=document.querySelector(".close"); if(modalClose){modalClose.setAttribute("aria-label",t.modal_close);modalClose.setAttribute("title",t.modal_close);}
 }
 
-function setLanguage(lang){
-  if(!I18N[lang])lang=DEFAULT_LANG;
-  localStorage.setItem(LS_LANG,lang);
-  setUrlLang(lang);
-  applyTranslations(lang)
-}
-
+function setLanguage(lang){if(!I18N[lang])lang=DEFAULT_LANG;localStorage.setItem(LS_LANG,lang);applyTranslations(lang)}
 document.querySelectorAll(".lang-btn").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.lang||"de")));
 applyTranslations(getLang());
-setUrlLang(document.documentElement.getAttribute("lang")||"de");
 
 const sections=[...document.querySelectorAll("main section"),document.getElementById("contact")].filter(Boolean);
 const linkMap=new Map();
@@ -216,50 +136,32 @@ const io=new IntersectionObserver(entries=>{
     if(!link)return;
     if(ent.isIntersecting){document.querySelectorAll(".nav a").forEach(x=>x.classList.remove("active"));link.classList.add("active")}
   })
-},{root:null,rootMargin:"-40% 0px -55% 0px",threshold:[0,0.25,0.5,0.75,1]});
+},{root:null,rootMargin:"-42% 0px -55% 0px",threshold:[0,0.25,0.5,0.75,1]});
 sections.forEach(sec=>io.observe(sec));
 
-const FORM_ENDPOINT="https://formspree.io/f/mandzzal";
-const cf=document.getElementById("contactForm");
-const cfStatus=document.getElementById("cf-status");
-const cfReset=document.getElementById("cf-reset");
-function setStatus(msg,ok){if(!cfStatus)return;cfStatus.textContent=msg;cfStatus.classList.remove("ok","err");if(msg)cfStatus.classList.add(ok?"ok":"err")}
-function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
-async function sendForm(data){const res=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)});if(!res.ok)throw new Error("bad");return true}
-cf?.addEventListener("submit",async e=>{
-  e.preventDefault();
-  const lang=document.documentElement.getAttribute("lang")||"de";
-  const name=document.getElementById("cf-name")?.value.trim()||"";
-  const email=document.getElementById("cf-email")?.value.trim()||"";
-  const message=document.getElementById("cf-message")?.value.trim()||"";
-  const hp=document.getElementById("cf-website")?.value.trim()||"";
-  const consent=document.getElementById("cf-consent")?.checked||false;
-  if(hp){return}
-  if(!name||!validateEmail(email)||!message||!consent){setStatus(I18N[lang].form.invalid,false);return}
-  const payload={name,email,message,lang,ts:new Date().toISOString()};
-  try{await sendForm(payload);setStatus(I18N[lang].form.ok,true);cf.reset()}catch(err){setStatus(I18N[lang].form.err,false)}
-});
-cfReset?.addEventListener("click",()=>{cf?.reset();setStatus("",true)});
+const backBtn=document.getElementById("backToTop");
+if(backBtn){
+  window.addEventListener("scroll",()=>{const y=window.scrollY||window.pageYOffset; if(y>800){backBtn.classList.add("show")}else{backBtn.classList.remove("show")}},{passive:true});
+  backBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+}
 
-const copyBtn=document.getElementById("copy-email");
-copyBtn?.addEventListener("click",async()=>{
-  const a=document.getElementById("mailto-link");
-  const email=a?.textContent?.trim()||"";
-  const lang=document.documentElement.getAttribute("lang")||"de";
-  try{
-    await navigator.clipboard.writeText(email);
-    copyBtn.classList.add("copied");
-    copyBtn.textContent=I18N[lang].copied;
-    setTimeout(()=>{copyBtn.classList.remove("copied");copyBtn.textContent=I18N[lang].copy_btn},1200);
-  }catch(_){}
-});
+const copyBtnEl=document.getElementById("copy-email");
+const mailLink=document.getElementById("mailto-link");
+if(copyBtnEl&&mailLink){
+  const text=mailLink.textContent.trim();
+  copyBtnEl.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(text);copyBtnEl.classList.add("copied");setTimeout(()=>copyBtnEl.classList.remove("copied"),1200)}catch(_){ }});
+}
+
+const form=document.getElementById("contact-form");
+if(form){
+  const btn=document.getElementById("send-btn");
+  form.addEventListener("submit",e=>{
+    const msg=document.getElementById("cf-message")||document.querySelector('textarea[name="message"]');
+    if(msg&&msg.value.trim().length<10){e.preventDefault();msg.focus();return}
+    if(btn){btn.setAttribute("disabled","true");btn.textContent=(getLang()==="de"?"Senden…":"Sending…")}
+  });
+}
 
 const inputs=document.querySelectorAll('input,textarea,select');
 inputs.forEach(i=>i.addEventListener('focus',()=>{document.documentElement.classList.add('kb-open')}));
 inputs.forEach(i=>i.addEventListener('blur',()=>{document.documentElement.classList.remove('kb-open')}));
-
-const backBtn=document.getElementById("backToTop");
-if(backBtn){
-  window.addEventListener("scroll",()=>{const y=window.scrollY||window.pageYOffset;if(y>800){backBtn.classList.add("show")}else{backBtn.classList.remove("show")}} ,{passive:true});
-  backBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}))
-}
