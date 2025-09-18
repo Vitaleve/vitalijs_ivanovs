@@ -56,12 +56,12 @@ html[data-theme="dark"] .theme-seg[aria-pressed=true]{color:#fff}
 }
 
 .hero{position:relative;display:grid;grid-template-rows:auto auto;justify-items:center;align-content:start;row-gap:40px;padding:160px 24px 80px}
-.brand{font-size:clamp(44px,9vw,112px);letter-spacing:.04em;margin:0;text-transform:uppercase;font-weight:800;text-align:center;line-height:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),letter-spacing .6s}
+.brand{font-size:clamp(44px,9vw,112px);letter-spacing:.02em;margin:0;text-transform:uppercase;font-weight:800;text-align:center;line-height:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),letter-spacing .6s}
 .brand span{display:inline-block;transition:transform .35s ease}
-.brand:hover,.brand:focus-visible{transform:scale(1.02);letter-spacing:.24em}
+.brand:hover,.brand:focus-visible{transform:scale(1.02);letter-spacing:.12em}
 .brand:hover span:nth-child(odd),.brand:focus-visible span:nth-child(odd){transform:translateY(-6px)}
 .brand:hover span:nth-child(even),.brand:focus-visible span:nth-child(even){transform:translateY(6px)}
-.subtitle{margin:0;color:var(--muted);max-width:72ch;text-align:center;padding:12px 16px;background:rgba(8,10,14,.45);border:1px solid rgba(255,255,255,.12);border-radius: 14px;backdrop-filter:blur(8px) saturate(140%)}
+.subtitle{margin:0;color:var(--muted);max-width:72ch;text-align:center;padding:12px 16px;background:rgba(8,10,14,.45);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px) saturate(140%);border-radius:14px}
 html[data-theme="light"] .subtitle{background:rgba(255,255,255,.65);border-color:rgba(0,0,0,.08);color:#333}
 .hero-media{display:none}
 .cta{display:none}
